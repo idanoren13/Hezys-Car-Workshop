@@ -7,5 +7,9 @@ namespace Ex03.GarageLogic
 {
     class Vehicle
     {
+        private class Wheel
+        {
+
+        }
     }
 }
