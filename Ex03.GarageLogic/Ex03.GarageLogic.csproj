@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EDAC22AE-669A-47C6-90E7-23DA6678DD8D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Hezy_s_Cars_Workshop</RootNamespace>
-    <AssemblyName>Hezy%27s Cars Workshop</AssemblyName>
+    <RootNamespace>Ex03.GarageLogic</RootNamespace>
+    <AssemblyName>Ex03.GarageLogic</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
