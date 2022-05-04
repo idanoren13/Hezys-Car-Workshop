@@ -1,0 +1,8 @@
+﻿
+
+
+TODOS:
+all classes inherit from vhic do like car with self parser and enum handler
+TODOS spred all over
+garag functionalty
+maneger and ligics 

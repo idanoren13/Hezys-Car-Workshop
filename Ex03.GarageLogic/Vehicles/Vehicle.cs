@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+
 using System.Collections.ObjectModel;
+using System.Reflection;
 using static Ex03.GarageLogic.VehicleParts; // todo ?
 
 namespace Ex03.GarageLogic
 {
-    public class Vehicle
+    public abstract class Vehicle
     {
         public enum eNumberOfWheels
         {
@@ -24,10 +26,11 @@ namespace Ex03.GarageLogic
             Truck
         }
 
-        enum eVehicleStatus //TODO
+        public enum eVehicleStatus
         {
-            afterHezys,
-            beforeHezysTreets
+            InProcess,
+            Fixed,
+            Done
         }
 
         private Engine m_Engine;
@@ -39,9 +42,13 @@ namespace Ex03.GarageLogic
         private string m_OwnersName;        //readOnly ?
         private string m_OwnersPhoneNumber; //readOnly ?     
 
-        public Vehicle(string i_ModelName, string i_OwnersName, string i_OwnersPhoneNumber, eVehicleType i_VehicleType)
+        /// <summary>
+        /// Vehicle c'tor
+        /// internal for future dll's and extensibility option 
+        /// </summary>
+        internal Vehicle(string i_ModelName, string i_OwnersName, string i_OwnersPhoneNumber, eVehicleType i_VehicleType)
         {
-            m_Status = eVehicleStatus.beforeHezysTreets; // todo
+            m_Status = eVehicleStatus.InProcess; // todo
             m_ModelName = i_ModelName;
             m_OwnersName = i_OwnersName;
             m_OwnersPhoneNumber = i_OwnersPhoneNumber;
@@ -69,31 +76,34 @@ namespace Ex03.GarageLogic
             m_Engine = new Engine();// todo
         }
 
-        public class Car
+        //todo internal or public ,U? u? 
+        /// <summary>
+        /// this method imposes parsing responsebilty 
+        /// To all those who inherit from me Vehicle
+        /// </summary>
+        public abstract object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed);
+
+        public abstract Type GetEnumProperty(string i_PropertyName); //<Enter number option, pick-able object
+
+        public eVehicleStatus Status
         {
-            enum eColor
-            {
-                Red,
-                Green,
-                Blue,
-                White
-            }
-
-            enum eDoorsAmount
-            {
-                Two = 2,
-                Three,
-                Four,
-                Five
-            }
-
-            private eDoorsAmount m_AmountOfDoors;
-            private eColor eCarColor;
-
+            get => m_Status;
+            set => m_Status = value;
         }
 
-        public class Motorike
+        public string Model
         {
+            get => m_ModelName;
+            set => m_ModelName = value;
+        }
+
+ 
+  
+
+        public class MotorBike
+        {
+            private int m_EngineSize;
+
             enum eLicenseType
             {
                 A,
@@ -102,7 +112,6 @@ namespace Ex03.GarageLogic
                 BB
             }
 
-            private int m_EngineSize;
 
         }
 

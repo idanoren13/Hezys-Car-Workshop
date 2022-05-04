@@ -45,7 +45,7 @@ namespace Ex03.GarageLogic
             private class ElectricEngine : Engine
             {
                 private float m_BatteryTimeLeft; // in hours.
-                private readonly float m_MaxBatteryCharge; // in hours.
+                private readonly float m_MaxBatteryCapacity; // in hours.
 
                 void SuperCharge() //todo
                 {
@@ -84,7 +84,7 @@ namespace Ex03.GarageLogic
                 }
 
                 private float m_CurrentFuelAmount;
-                private readonly float m_MaxFuelAmount;
+                private readonly float m_PetrolTankCapacity;
                 private eFuelType m_FuelType;
 
                 void RefillFuel()

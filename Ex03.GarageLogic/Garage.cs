@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -9,7 +10,7 @@ namespace Ex03.GarageLogic
     {
         public enum eGarageOptions
         {
-            InsertVehicle,
+            InsertVehicle = 1,
             ChangeVehicleState,
             FillTirePressure,
             FillGasMotor,
@@ -18,8 +19,8 @@ namespace Ex03.GarageLogic
         }
 
         //todo
-        Dictionary<string, Vehicle> r_VehiclesInGarage;
-        VehicleFactory r_Factory;
+        private readonly Dictionary<string, Vehicle> r_GarageVehicles;
+        private readonly VehicleFactory r_Factory;
         eGarageOptions options;
         const int k_NumberOfAvailableMethodsInGarage = 0;
         const string k_ParsingToIntErrorFlag = "0";
@@ -28,7 +29,13 @@ namespace Ex03.GarageLogic
         //const int k_MaxNumberOfStatuses = 0; 
         //const int k_MinNumberOfStatuses = 0;
 
-        void FillWheelsAirPressure()
+        public Garage()
+        {
+            r_GarageVehicles = new Dictionary<string, Vehicle>();
+            r_Factory = new VehicleFactory();
+        }
+
+        void FillTyreAirPressure()
         {
             //get numbers of wheels
             for (int i = 0; i < 3; i++)
@@ -36,6 +43,36 @@ namespace Ex03.GarageLogic
                 //RefillAir();
             }
         }
+
+        public void AddVehicle(Vehicle i_Vehicle, string i_LicenseNumber)
+        {
+            r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
+        }
+
+        public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
+        {
+            return r_GarageVehicles.Keys;
+        }
+
+        public Dictionary<string, Vehicle>.KeyCollection PlatesList
+        {
+            get => r_GarageVehicles.Keys;
+        }
+
+        public Vehicle.eVehicleStatus GetVehicleStatus(string i_PlatesList)
+        {
+            r_GarageVehicles.TryGetValue(i_PlatesList, out Vehicle currentVehicle); // todo use exception in catch ?
+            return currentVehicle.Status;
+        }
+
+        public void SetValueOfEnumProperty(PropertyInfo i_EnumPropertyInfo, Vehicle i_NewVehicle, string i_NewEnumValue)
+        {
+            i_EnumPropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_EnumPropertyInfo, i_NewEnumValue), null);
+        }
+
+        //public float GetAmountOfEnergy
+        //public float GetMaxAmountOfEnergy
+
 
         //mathods
 
