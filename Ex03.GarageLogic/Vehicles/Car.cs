@@ -19,29 +19,32 @@ namespace Ex03.GarageLogic.Vehicles
         public enum eDoorsAmount
         {
             Two = 2,
-            Three,
-            Four,
-            Five
+            Three = 3,
+            Four = 4,
+            Five = 5
         }
 
         private eDoorsAmount m_AmountOfDoors;
         private eColor eCarColor;
 
-        public Car() : base("mazda" ,"bivas" , "04055555" , eVehicleType.Car) { } // todo maybe no need for all this shiit to ctor?
+        public Car(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) : 
+            base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber) { }
 
         public override object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed)
         {
+            
             throw new NotImplementedException();
         }
 
-        public override Type GetEnumProperty(string i_EnumPropertyID)
+        public override Type GetEnumProperty(string i_PropertyName)
         {
             Type specificType;
-            if (i_EnumPropertyID == "Color")
+
+            if (i_PropertyName == "Color")
             {
                 specificType = typeof(eColor);
             }
-            else if (i_EnumPropertyID == "DoorsAmount")
+            else if (i_PropertyName == "DoorsAmount")
             {
                 specificType = typeof(eDoorsAmount);
             }
