@@ -53,5 +53,8 @@
     <Compile Include="VehicleFactory.cs" />
     <Compile Include="VehicleParts.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="GarageFlowChart.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

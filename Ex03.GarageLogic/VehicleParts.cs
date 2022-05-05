@@ -19,16 +19,16 @@ namespace Ex03.GarageLogic
                 r_ManufacturerName = i_ManufacturerName;
             }
 
-            public void RefillAir(int i_AddedVolume) 
+            public void RefillAir(int i_AddedPressure) 
             {
 
-                if (m_CurrentAirPressure + i_AddedVolume > r_MaxAirPressure ||
-                    m_CurrentAirPressure + i_AddedVolume < 0)
+                if (m_CurrentAirPressure + i_AddedPressure > r_MaxAirPressure ||
+                    m_CurrentAirPressure + i_AddedPressure < 0)
                 {
                     throw new ValueOutOfRangeException(r_MaxAirPressure, 0);
                 }
                 else {
-                    m_CurrentAirPressure += i_AddedVolume;
+                    m_CurrentAirPressure += i_AddedPressure;
                     m_CurrentAirPressure = r_MaxAirPressure;
                 }
             }

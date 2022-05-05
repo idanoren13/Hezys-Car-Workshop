@@ -55,5 +55,8 @@
   <ItemGroup>
     <Content Include="Todi.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="UIFlowChart.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
