@@ -91,6 +91,7 @@ namespace Ex03.GarageLogic
             public float MaxBatteryCapacity
             {
                 get => m_MaxEnergyCapacity;
+                set => m_MaxEnergyCapacity = value;
             }
 
             void SuperCharge(float i_AddEnergy) //todo
@@ -125,6 +126,7 @@ namespace Ex03.GarageLogic
             public float MaxTankCapacity
             {
                 get => m_MaxEnergyCapacity;
+                set => m_MaxEnergyCapacity = value;
             }
 
             public eFuelType FuelType
