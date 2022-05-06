@@ -37,7 +37,26 @@ namespace Ex03.GarageLogic
             return newVehicle;
         }
 
-        public VehicleParts.Engine CreateEngine(Ve)
+        public VehicleParts.Engine CreateEngine(VehicleParts.Engine.eEngineType i_EngineType, 
+                                                float i_MaxEnergyCapacity, 
+                                                VehicleParts.CombustionEngine.eFuelType i_Fuel = default)
+        {
+            VehicleParts.Engine engine;
+            switch (i_EngineType)
+            {
+                case VehicleParts.Engine.eEngineType.Electricty:
+                    engine = new VehicleParts.ElectricEngine(i_MaxEnergyCapacity);
+                    break;
+                case VehicleParts.Engine.eEngineType.Fuel:
+                    engine = new VehicleParts.CombustionEngine(i_MaxEnergyCapacity, i_Fuel);
+                    break;
+                default:
+                    throw new ArgumentException("Bad Engine Type, This type engine of is not recognizeble");
+                    break;
+            }
+
+            return engine;
+        }
 
         public void AddVehicleParts()
         {

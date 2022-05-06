@@ -76,6 +76,21 @@ namespace Ex03.GarageLogic
             i_EnumPropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_EnumPropertyInfo, i_NewEnumValue), null);
         }
 
+        public const string k_NotIntError = "Error: non Integer number entered!";
+        public void CheckIfVehicleExists(string i_Input)
+        {
+            int parsedInt;
+
+            if (!int.TryParse(i_Input, out parsedInt))
+            {
+                throw new FormatException(k_NotIntError);
+            }
+
+            if (r_GarageVehicles.ContainsKey(i_Input) == true)
+            {
+                throw new ArgumentException($"Error: {i_Input} Already exist! ");
+            }
+        }
         //public float GetAmountOfEnergy
         //public float GetMaxAmountOfEnergy
 

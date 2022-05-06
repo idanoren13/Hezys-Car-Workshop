@@ -58,13 +58,13 @@ namespace Ex03.ConsoleUI
 
             ConsoleHandler.printEnum<VehicleFactory.eVehicleType>();
             vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole();
-            Console.WriteLine("Please enter Your name: ");
+            Console.WriteLine(string.Format("Please enter Your name: {0}", Environment.NewLine));
             ownersName = Console.ReadLine();
-            Console.WriteLine("Please enter Your number: ");
+            Console.WriteLine(string.Format("Please enter Your number: {0}", Environment.NewLine));
             ownersNumber = Console.ReadLine();
-            Console.WriteLine("Please enter Your {} model: ", vehicleType.ToString());
+            Console.WriteLine(string.Format("Please enter Your {0} model: {1}", vehicleType.ToString(), Environment.NewLine));
             model = Console.ReadLine();
-            Console.WriteLine("Please enter Your license Number: ");
+            Console.WriteLine(string.Format("Please enter Your license Number: {0}", Environment.NewLine));
             licenseNumber = Console.ReadLine();
 
             m_NewVehicle = m_Garage.R_Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
@@ -92,14 +92,63 @@ namespace Ex03.ConsoleUI
         private void selectAndInitilizeEngine()
         {
             VehicleParts.Engine.eEngineType engineType;
+            VehicleParts.CombustionEngine.eFuelType fuelType = default;
 
             ConsoleHandler.printEnum<VehicleParts.Engine.eEngineType>();
-            engineType = (VehicleParts.Engine.eEngineType)readEnumFromConsole();            
+            engineType = (VehicleParts.Engine.eEngineType)readEnumFromConsole();
+
+            if (engineType == VehicleParts.Engine.eEngineType.Fuel)
+            {
+                ConsoleHandler.printEnum<VehicleParts.CombustionEngine.eFuelType>();
+                fuelType = (VehicleParts.CombustionEngine.eFuelType)readEnumFromConsole();
+            }
+
+            m_NewVehicle.Engine = m_Garage.R_Factory.CreateEngine(engineType,)
         }
 
         public void SetValueForUniqueProperty(PropertyInfo i_UniquePropertyInfo, Vehicle i_NewVehicle, string i_NewPropertyValue)
         {
             i_UniquePropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_UniquePropertyInfo, i_NewPropertyValue), null);
+        }
+
+        private void checkValidMenuChoice(string i_Input)
+        {
+            if (!int.TryParse(i_Input, out int parsedInteger))
+            {
+                throw new FormatException(Garage.k_NotIntError);
+            }
+
+            if (Enum.IsDefined(typeof(VehicleFactory.eVehicleType), parsedInteger) == false)
+            {
+                throw new ValueOutOfRangeException(2, 0);
+            }
+        }
+
+
+        private void checkLicenseNumberInput(string i_Input)
+        {
+            if (!int.TryParse(i_Input, out int parsedInteger))
+            {
+                throw new FormatException(Garage.k_NotIntError);
+            }
+
+            if (parsedInteger <= 0)
+            {
+                throw new ArgumentException("Error: negative license number!");
+            }
+        }
+
+        private void checkPhoneNumberInput(string i_Input)
+        {
+            if (!int.TryParse(i_Input, out int parsedInteger))
+            {
+                throw new FormatException(Garage.k_NotIntError);
+            }
+
+            if (parsedInteger <= 0)
+            {
+                throw new ArgumentException("Error: negative phone number!");
+            }
         }
     }
 }
