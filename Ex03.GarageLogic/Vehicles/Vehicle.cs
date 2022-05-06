@@ -115,5 +115,13 @@ namespace Ex03.GarageLogic
 
             return deepClonedVehicle;
         }
+
+        public void SetMaxAirPressure(float i_MaxAirPresure)
+        {
+            foreach (VehicleParts.Wheel wheel in m_Wheels)
+            {
+                wheel.MaxAirPressure = i_MaxAirPresure;
+            }
+        }
     }
 }

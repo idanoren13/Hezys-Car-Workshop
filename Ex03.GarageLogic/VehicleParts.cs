@@ -10,14 +10,8 @@ namespace Ex03.GarageLogic
         public class Wheel
         {
             private float m_CurrentAirPressure;
-            private readonly float r_MaxAirPressure;
-            private readonly string r_ManufacturerName;
-
-            public Wheel(string i_ManufacturerName, float i_MaxAirPressure)
-            {
-                r_MaxAirPressure = i_MaxAirPressure;
-                r_ManufacturerName = i_ManufacturerName;
-            }
+            private string m_ManufacturerName;
+            private float m_MaxAirPressure;
             
             public float CurrentAirPressure 
             {
@@ -27,26 +21,27 @@ namespace Ex03.GarageLogic
 
             public float MaxAirPressure
             {
-                get => r_MaxAirPressure;
+                get => m_MaxAirPressure;
+                set => m_MaxAirPressure = value;
             }
 
             public void AddAir(int i_AddedPressure) 
             {
 
-                if (m_CurrentAirPressure + i_AddedPressure > r_MaxAirPressure ||
+                if (m_CurrentAirPressure + i_AddedPressure > m_MaxAirPressure ||
                     m_CurrentAirPressure + i_AddedPressure < 0)
                 {
-                    throw new ValueOutOfRangeException(r_MaxAirPressure, 0);
+                    throw new ValueOutOfRangeException(m_MaxAirPressure, 0);
                 }
                 else {
                     m_CurrentAirPressure += i_AddedPressure;
-                    m_CurrentAirPressure = r_MaxAirPressure;
+                    m_CurrentAirPressure = m_MaxAirPressure;
                 }
             }
 
             public void FillMaxPressure()
             {
-                m_CurrentAirPressure = r_MaxAirPressure;
+                m_CurrentAirPressure = m_MaxAirPressure;
             }
 
         }

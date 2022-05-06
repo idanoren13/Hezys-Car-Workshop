@@ -22,9 +22,11 @@ namespace Ex03.GarageLogic
             {
                 case eVehicleType.Car:
                     newVehicle = new Ex03.GarageLogic.Vehicles.Car(i_ModelName, i_LicenseNumber, 4, i_OwnersName, i_OwnersNumber);
+                    newVehicle.SetMaxAirPressure(29f);
                     break;
                 case eVehicleType.MotorBike:
                     newVehicle = new Ex03.GarageLogic.Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
+                    newVehicle.SetMaxAirPressure(31f);
                     break;
                 //case eVehicleType.Truck:
                 //    newVehicle = new Ex03.GarageLogic.Vehicles.Truck(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
@@ -33,6 +35,7 @@ namespace Ex03.GarageLogic
                     throw new ArgumentException("Bad Vehicle Type, This type of vehicle is not recognizeble");
                     break;
             }
+
 
             return newVehicle;
         }
