@@ -18,8 +18,19 @@ namespace Ex03.GarageLogic
                 r_MaxAirPressure = i_MaxAirPressure;
                 r_ManufacturerName = i_ManufacturerName;
             }
+            
+            public float CurrentAirPressure 
+            {
+                get => m_CurrentAirPressure;
+                set => m_CurrentAirPressure = value;
+            }
 
-            public void RefillAir(int i_AddedPressure) 
+            public float MaxAirPressure
+            {
+                get => r_MaxAirPressure;
+            }
+
+            public void AddAir(int i_AddedPressure) 
             {
 
                 if (m_CurrentAirPressure + i_AddedPressure > r_MaxAirPressure ||
@@ -33,11 +44,11 @@ namespace Ex03.GarageLogic
                 }
             }
 
-            public float CurrentAirPressure 
+            public void FillMaxPressure()
             {
-                get => m_CurrentAirPressure;
-                set => m_CurrentAirPressure = value;
+                m_CurrentAirPressure = r_MaxAirPressure;
             }
+
         }
 
         public abstract class Engine
@@ -52,7 +63,7 @@ namespace Ex03.GarageLogic
             protected float m_MaxEnergyCapacity;
             protected readonly eEngineType r_EngineType;
 
-            protected Engine(/*float i_MaxEnergyCapacity, */eEngineType i_EngineType)
+            protected Engine(eEngineType i_EngineType)
             {
                 //m_MaxEnergyCapacity = i_MaxEnergyCapacity;
                 r_EngineType = i_EngineType;
@@ -80,7 +91,7 @@ namespace Ex03.GarageLogic
 
         public class ElectricEngine : Engine
         {
-            public ElectricEngine(float i_MaxBatteryCapacity) : base(/*i_MaxBatteryCapacity,*/ eEngineType.Electricty) { }
+            public ElectricEngine() : base(eEngineType.Electricty) { }
 
             public float BatteryTimeLeft 
             { 
@@ -94,7 +105,7 @@ namespace Ex03.GarageLogic
                 set => m_MaxEnergyCapacity = value;
             }
 
-            void SuperCharge(float i_AddEnergy) //todo
+            void SuperCharge(float i_AddEnergy)
             {
                 addEnergy(i_AddEnergy);   
             }
@@ -110,12 +121,9 @@ namespace Ex03.GarageLogic
                 Octan98
             }
 
-            private readonly eFuelType r_FuelType;
+            private eFuelType m_FuelType;
 
-            public CombustionEngine(float i_MaxFuelCapcity, eFuelType i_FuelType) : base(/*i_MaxFuelCapcity,*/ eEngineType.Fuel)
-            {
-                r_FuelType = i_FuelType;
-            }
+            public CombustionEngine() : base(eEngineType.Fuel) { }
 
             public float CurrentFuelAmount 
             { 
@@ -131,7 +139,8 @@ namespace Ex03.GarageLogic
 
             public eFuelType FuelType
             {
-                get => r_FuelType;
+                get => m_FuelType;
+                set => m_FuelType = value;
             }
 
             public void addFuel(float i_AddVolume)

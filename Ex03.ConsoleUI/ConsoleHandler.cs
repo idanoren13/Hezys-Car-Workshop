@@ -42,12 +42,12 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        public static void printEnum<genericEnum>()
+        public static void PrintEnum<genericEnum>()
         {
             genericEnum enumType = default;
-
             Type type = enumType.GetType();
-            ConsoleHandler.EnumsConsoleMessage(type);
+
+            EnumsConsoleMessage(type);
         }
 
         public static void PrintMainMenu()

@@ -37,18 +37,20 @@ namespace Ex03.GarageLogic
             return newVehicle;
         }
 
-        public VehicleParts.Engine CreateEngine(VehicleParts.Engine.eEngineType i_EngineType, 
-                                                float i_MaxEnergyCapacity, 
-                                                VehicleParts.CombustionEngine.eFuelType i_Fuel = default)
+        public VehicleParts.Engine CreateEngine(VehicleParts.Engine.eEngineType i_EngineType, eVehicleType i_VehicleType)
         {
             VehicleParts.Engine engine;
+
             switch (i_EngineType)
             {
                 case VehicleParts.Engine.eEngineType.Electricty:
-                    engine = new VehicleParts.ElectricEngine(i_MaxEnergyCapacity);
+                    engine = new VehicleParts.ElectricEngine();
+                    (engine as VehicleParts.ElectricEngine).MaxBatteryCapacity = setEnergyCapacity(i_EngineType, i_VehicleType);
                     break;
                 case VehicleParts.Engine.eEngineType.Fuel:
-                    engine = new VehicleParts.CombustionEngine(i_MaxEnergyCapacity, i_Fuel);
+                    engine = new VehicleParts.CombustionEngine();
+                    (engine as VehicleParts.CombustionEngine).MaxTankCapacity = setEnergyCapacity(i_EngineType, i_VehicleType);
+                    (engine as VehicleParts.CombustionEngine).FuelType = setFuelType(i_VehicleType);
                     break;
                 default:
                     throw new ArgumentException("Bad Engine Type, This type engine of is not recognizeble");
@@ -58,12 +60,68 @@ namespace Ex03.GarageLogic
             return engine;
         }
 
-        public void AddVehicleParts()
+        private VehicleParts.CombustionEngine.eFuelType setFuelType(eVehicleType i_VehicleType)
         {
-            //Vehicle ctor
-            //engine
-            //wheels
+            VehicleParts.CombustionEngine.eFuelType fuelType;
 
+            switch (i_VehicleType)
+            {
+                case eVehicleType.Car:
+                    fuelType = VehicleParts.CombustionEngine.eFuelType.Octan95;
+                    break;
+                case eVehicleType.MotorBike:
+                    fuelType = VehicleParts.CombustionEngine.eFuelType.Octan98;
+                    break;
+                case eVehicleType.Truck:
+                    fuelType = VehicleParts.CombustionEngine.eFuelType.Soler;
+                    break;
+                default:
+                    throw new FormatException();
+                    break;
+            }
+
+            return fuelType;
+        }
+
+        private float setEnergyCapacity(VehicleParts.Engine.eEngineType i_EngineType, eVehicleType i_VehicleType)
+        {
+            float capacity ;
+
+            if (i_EngineType == VehicleParts.Engine.eEngineType.Electricty)
+            {
+                switch (i_VehicleType)
+                {
+                    case eVehicleType.Car:
+                        capacity = 38f;
+                        break;
+                    case eVehicleType.MotorBike:
+                        capacity = 6.2f;
+                        break;
+                    case eVehicleType.Truck:
+                        capacity = 120f;
+                        break;
+                    default:
+                        throw new FormatException();
+                        break;
+                }
+            }
+            else
+            {
+                switch (i_VehicleType)
+                {
+                    case eVehicleType.Car:
+                        capacity = 2.5f;
+                        break;
+                    case eVehicleType.MotorBike:
+                        capacity = 3.3f;
+                        break;
+                    default:
+                        throw new FormatException();
+                        break;
+                }
+            }
+
+            return capacity;
         }
     }
 }

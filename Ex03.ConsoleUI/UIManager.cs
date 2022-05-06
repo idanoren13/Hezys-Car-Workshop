@@ -56,7 +56,7 @@ namespace Ex03.ConsoleUI
             VehicleFactory.eVehicleType vehicleType;
             string model, licenseNumber, ownersName, ownersNumber;
 
-            ConsoleHandler.printEnum<VehicleFactory.eVehicleType>();
+            ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
             vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole();
             Console.WriteLine(string.Format("Please enter Your name: {0}", Environment.NewLine));
             ownersName = Console.ReadLine();
@@ -77,16 +77,19 @@ namespace Ex03.ConsoleUI
         
         private int readEnumFromConsole()
         {
-            int readEnum;
-            int maxEnumValue;
+            uint parseEnum;
+            int maxEnumValue = Enum.GetValues(typeof(VehicleFactory.eVehicleType)).Length;
 
-            if (!int.TryParse(Console.ReadLine(), out readEnum))
+            if (!uint.TryParse(Console.ReadLine(), out parseEnum))
             {
-                maxEnumValue = Enum.GetValues(typeof(VehicleFactory.eVehicleType)).Length;
+                throw new FormatException(Garage.k_NotIntError);
+            }
+            else if (parseEnum < 0 || parseEnum >= maxEnumValue)
+            {
                 throw new ValueOutOfRangeException(maxEnumValue, 0);
             }
 
-            return readEnum;
+            return (int)parseEnum;
         }
 
         private void selectAndInitilizeEngine()
@@ -94,16 +97,16 @@ namespace Ex03.ConsoleUI
             VehicleParts.Engine.eEngineType engineType;
             VehicleParts.CombustionEngine.eFuelType fuelType = default;
 
-            ConsoleHandler.printEnum<VehicleParts.Engine.eEngineType>();
+            ConsoleHandler.PrintEnum<VehicleParts.Engine.eEngineType>();
             engineType = (VehicleParts.Engine.eEngineType)readEnumFromConsole();
 
             if (engineType == VehicleParts.Engine.eEngineType.Fuel)
             {
-                ConsoleHandler.printEnum<VehicleParts.CombustionEngine.eFuelType>();
+                ConsoleHandler.PrintEnum<VehicleParts.CombustionEngine.eFuelType>();
                 fuelType = (VehicleParts.CombustionEngine.eFuelType)readEnumFromConsole();
             }
 
-            m_NewVehicle.Engine = m_Garage.R_Factory.CreateEngine(engineType,)
+            m_NewVehicle.Engine = m_Garage.R_Factory.CreateEngine(engineType, m_NewVehicle.VehicleType);
         }
 
         public void SetValueForUniqueProperty(PropertyInfo i_UniquePropertyInfo, Vehicle i_NewVehicle, string i_NewPropertyValue)
@@ -149,6 +152,15 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Error: negative phone number!");
             }
+        }
+
+        private void addTyrePressureFromInput()
+        {
+            string userChoice = Console.ReadLine();
+
+            Console.WriteLine($"Please enter the license number, followed by an ENTER.{Environment.NewLine}");
+            m_Garage.FillTyresAirPressure(userChoice);
+            Console.WriteLine($"success fillilng pressure. {Environment.NewLine}");
         }
     }
 }

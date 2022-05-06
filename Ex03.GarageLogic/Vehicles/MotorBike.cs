@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic.Vehicles
 
 
         public MotorBike(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) :
-           base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber)
+           base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber, VehicleFactory.eVehicleType.MotorBike)
         { }
 
         public int EngineVolume 

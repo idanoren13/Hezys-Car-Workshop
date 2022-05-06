@@ -56,12 +56,19 @@ namespace Ex03.GarageLogic
             r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
         }
 
-        void FillTyresAirPressure()
+        public void FillTyresAirPressure(string i_LicenseNumber)
         {
-            //get numbers of wheels
-            for (int i = 0; i < 3; i++)
+            bool isValueFatched = r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            if (isValueFatched)
             {
-                //RefillAir();
+                foreach (VehicleParts.Wheel wheel in r_GarageVehicles[i_LicenseNumber].Wheels)
+                {
+                    wheel.FillMaxPressure();
+                }
+            }
+            else
+            {
+                throw new FormatException("Error:Could Not fined Vehicle");
             }
         }
 
@@ -77,6 +84,7 @@ namespace Ex03.GarageLogic
         }
 
         public const string k_NotIntError = "Error: non Integer number entered!";
+
         public void CheckIfVehicleExists(string i_Input)
         {
             int parsedInt;
@@ -89,6 +97,48 @@ namespace Ex03.GarageLogic
             if (r_GarageVehicles.ContainsKey(i_Input) == true)
             {
                 throw new ArgumentException($"Error: {i_Input} Already exist! ");
+            }
+        }
+
+        private int setPressureFromInput(string i_LicenseNumber, int i_CurrentIndex, VehicleParts.Wheel i_Wheel)
+        {
+            bool isNumeric;
+            int parsedInteger;
+            string addedAirPressure;
+
+            Console.WriteLine($"wheel number:{i_CurrentIndex + 1} out of {r_GarageVehicles[i_LicenseNumber].NumberOfWheels} Enter the pressure amount to add: {Environment.NewLine}");
+            Console.WriteLine($"< 0 - {i_Wheel.MaxAirPressure} > {Environment.NewLine}");
+            addedAirPressure = Console.ReadLine();
+            isNumeric = int.TryParse(addedAirPressure, out parsedInteger);
+            if (isNumeric)
+            {
+                i_Wheel.AddAir(parsedInteger);
+            }
+            else
+            {
+                throw new FormatException(Garage.k_NotIntError);
+            }
+
+            ++i_CurrentIndex;
+
+            return i_CurrentIndex;
+        }
+
+        public void FillTyresMaxAirPressure(string i_LicenseNumber)
+        {
+            bool isValueFatched = r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            int i = 0;
+
+            if (isValueFatched)
+            {
+                foreach (VehicleParts.Wheel wheel in r_GarageVehicles[i_LicenseNumber].Wheels)
+                {
+                    i = setPressureFromInput(i_LicenseNumber, i, wheel);
+                }
+            }
+            else
+            {
+                throw new FormatException("Error:Could Not fined Vehicle");
             }
         }
         //public float GetAmountOfEnergy

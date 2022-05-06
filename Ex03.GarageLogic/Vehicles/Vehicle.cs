@@ -27,12 +27,13 @@ namespace Ex03.GarageLogic
         private readonly string r_LicenseNumber;
         private readonly string r_OwnersName;
         private readonly string r_OwnersNumber;
+        private readonly VehicleFactory.eVehicleType r_VehicleType;
 
         /// <summary>
         /// Vehicle c'tor
         /// internal for future dll's and extensibility option 
         /// </summary>
-        internal Vehicle(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber)
+        internal Vehicle(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber, VehicleFactory.eVehicleType i_VehicleType)
         {
             r_ModelName = i_ModelName;
             r_LicenseNumber = i_LicenseNumber;
@@ -41,6 +42,7 @@ namespace Ex03.GarageLogic
             m_Status = eVehicleStatus.InProcess;
             r_OwnersName = i_OwnersName;
             r_OwnersNumber = i_OwnersNumber;
+            r_VehicleType = i_VehicleType;
         }
 
         public Engine Engine
@@ -86,6 +88,11 @@ namespace Ex03.GarageLogic
             get => r_OwnersNumber; 
         }
 
+        public VehicleFactory.eVehicleType VehicleType
+        {
+            get => r_VehicleType;
+        }
+
         //todo internal or public ,U? u? 
         /// <summary>
         /// this method imposes parsing responsebilty 
@@ -99,9 +106,9 @@ namespace Ex03.GarageLogic
         {
             Vehicle deepClonedVehicle = (Vehicle)this.MemberwiseClone();
             int i = 0;
-            foreach (Wheel wheel in deepClonedVehicle.Wheels) //todo getter Wheels or Tyres
+            foreach (Wheel wheel in deepClonedVehicle.m_Wheels) //todo getter Wheels or Tyres
             {
-                deepClonedVehicle.Wheels.CopyTo(this.Wheels, i);
+                deepClonedVehicle.m_Wheels.CopyTo(this.m_Wheels, i);
             }
 
             deepClonedVehicle.m_Engine = this.m_Engine; // TODO shallow clone ?
