@@ -43,6 +43,18 @@ namespace Ex03.GarageLogic
             r_OwnersNumber = i_OwnersNumber;
         }
 
+        public Engine Engine
+        {
+            get => m_Engine;
+            set => m_Engine = value;
+        }
+
+        public Wheel[] Wheels
+        {
+            get => m_Wheels;
+            set => m_Wheels = value;
+        }
+
         public int NumberOfWheels
         {
             get => r_NumberOfWheels;

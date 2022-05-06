@@ -24,11 +24,24 @@ namespace Ex03.GarageLogic.Vehicles
             Five = 5
         }
 
-        private eDoorsAmount m_AmountOfDoors;
-        private eColor eCarColor;
+        private eDoorsAmount m_NumberOfDoors;
+        private eColor m_CarColor;
+
 
         public Car(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) : 
             base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber) { }
+        
+        public eDoorsAmount NumberOfDoors 
+        {
+            get => m_NumberOfDoors; 
+            set => m_NumberOfDoors = value; 
+        }
+        
+        public eColor Color 
+        { 
+            get => m_CarColor;
+            set => m_CarColor = value; 
+        }
 
         public override object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed)
         {

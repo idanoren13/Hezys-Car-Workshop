@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class VehicleFactory
+    public class VehicleFactory
     {
         public enum eVehicleType
         {
@@ -26,9 +26,9 @@ namespace Ex03.GarageLogic
                 case eVehicleType.MotorBike:
                     newVehicle = new Ex03.GarageLogic.Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
                     break;
-                case eVehicleType.Truck:
-                    newVehicle = new Ex03.GarageLogic.Vehicles.Truck(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
-                    break;
+                //case eVehicleType.Truck:
+                //    newVehicle = new Ex03.GarageLogic.Vehicles.Truck(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
+                //    break;
                 default:
                     throw new ArgumentException("Bad Vehicle Type, This type of vehicle is not recognizeble");
                     break;

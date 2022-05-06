@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.ConsoleUI
 {
-    static class ConsoleHandler // todo stati?
+    static class ConsoleHandler // todo static? yes
     {
         public static void InvalidInputMessage()
         {

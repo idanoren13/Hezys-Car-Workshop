@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
                 Fuel,
             }
 
-            protected float m_CurrentEnergyCapacity; // in hours.
+            protected float m_CurrentEnergyCapacity;
             protected readonly float r_MaxEnergyCapacity;
             protected readonly eEngineType r_EngineType;
 

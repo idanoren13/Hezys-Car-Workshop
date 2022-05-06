@@ -32,14 +32,16 @@ namespace Ex03.ConsoleUI
             return flag;
         }
 
-        private string handleEnumCase(Vehicle i_NewVehicle, PropertyInfo i_UniquePropertyInfo)
-        {
-            Type matchingTypeEnum = i_NewVehicle.GetUniqueType(i_UniquePropertyInfo.Name);
-            Console.WriteLine("\nChoosing " + i_UniquePropertyInfo.Name + ":");
-            getEnumConsoleMessage(matchingTypeEnum);
-            //user enters enum choice
-            return Console.ReadLine();
-        }
+        //private string handleEnumCase(Vehicle i_NewVehicle, PropertyInfo i_UniquePropertyInfo)
+        //{
+        //    Type matchingTypeEnum = i_NewVehicle.GetUniqueType(i_UniquePropertyInfo.Name);
+        //    Console.WriteLine("\nChoosing " + i_UniquePropertyInfo.Name + ":");
+        //    getEnumConsoleMessage(matchingTypeEnum);
+        //    //user enters enum choice
+        //    return Console.ReadLine();
+        //}
+
+
 
      
 
