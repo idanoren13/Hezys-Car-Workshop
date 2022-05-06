@@ -121,7 +121,7 @@ namespace Ex03.ConsoleUI
                 throw new FormatException(Garage.k_NotIntError);
             }
 
-            if (Enum.IsDefined(typeof(VehicleFactory.eVehicleType), parsedInteger) == false)
+            if (!Enum.IsDefined(typeof(VehicleFactory.eVehicleType), parsedInteger))
             {
                 throw new ValueOutOfRangeException(2, 0);
             }
