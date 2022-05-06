@@ -37,6 +37,8 @@ namespace Ex03.GarageLogic
             return newVehicle;
         }
 
+        public VehicleParts.Engine CreateEngine(Ve)
+
         public void AddVehicleParts()
         {
             //Vehicle ctor

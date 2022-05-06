@@ -37,7 +37,7 @@ namespace Ex03.GarageLogic.Vehicles
             set => m_LicenseType = value; 
         }
 
-        public override Type GetEnumProperty(string i_PropertyName)
+        public override Type GetSelfPropertyType(string i_PropertyName)
         {
             Type specificType;
 

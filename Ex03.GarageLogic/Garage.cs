@@ -15,13 +15,12 @@ namespace Ex03.GarageLogic
             FillTirePressure,
             FillGasMotor,
             FillElectricMotor,
-
         }
 
         //todo
         private readonly Dictionary<string, Vehicle> r_GarageVehicles;
         private readonly VehicleFactory r_Factory;
-        eGarageOptions options;
+        private readonly eGarageOptions m_Options;
         const int k_NumberOfAvailableMethodsInGarage = 0;
         const string k_ParsingToIntErrorFlag = "0";
         const float k_MaxPercentage = 100;
@@ -35,20 +34,6 @@ namespace Ex03.GarageLogic
             r_Factory = new VehicleFactory();
         }
 
-        void FillTyreAirPressure()
-        {
-            //get numbers of wheels
-            for (int i = 0; i < 3; i++)
-            {
-                //RefillAir();
-            }
-        }
-
-        public void AddVehicle(Vehicle i_Vehicle, string i_LicenseNumber)
-        {
-            r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
-        }
-
         public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
         {
             return r_GarageVehicles.Keys;
@@ -57,6 +42,27 @@ namespace Ex03.GarageLogic
         public Dictionary<string, Vehicle>.KeyCollection PlatesList
         {
             get => r_GarageVehicles.Keys;
+        }
+
+        public VehicleFactory R_Factory => r_Factory;
+
+        public eGarageOptions Options 
+        {
+            get => m_Options;
+        }
+
+        public void AddVehicle(Vehicle i_Vehicle, string i_LicenseNumber)
+        {
+            r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
+        }
+
+        void FillTyresAirPressure()
+        {
+            //get numbers of wheels
+            for (int i = 0; i < 3; i++)
+            {
+                //RefillAir();
+            }
         }
 
         public Vehicle.eVehicleStatus GetVehicleStatus(string i_PlatesList)

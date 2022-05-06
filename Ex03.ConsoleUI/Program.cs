@@ -16,13 +16,16 @@ namespace Ex03.ConsoleUI
             Vehicle newVehicle;
             PropertyInfo[] propertyInfo;
             int n = 2;
+
+            ConsoleHandler.printEnum<VehicleFactory.eVehicleType>();
+
             VehicleParts.Engine engine = new VehicleParts.CombustionEngine(60, VehicleParts.CombustionEngine.eFuelType.Octan95);
 
             newVehicle = factory.CreatVehicle(VehicleFactory.eVehicleType.Car, "Toyota", "7653550", "Idan", "0546446798");
             propertyInfo = newVehicle.GetType().GetProperties();
-            Console.WriteLine(propertyInfo[n]);
-
-            propertyInfo[n].SetValue(newVehicle, engine, null);
+            //ConsoleHandler.NewVehilceMessage(propertyInfo);
+            //Console.WriteLine(propertyInfo[n]);
+            //propertyInfo[n].SetValue(newVehicle, engine, null);
 
             engine = new VehicleParts.CombustionEngine(35, VehicleParts.CombustionEngine.eFuelType.Octan98);
         }

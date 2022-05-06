@@ -93,7 +93,20 @@ namespace Ex03.GarageLogic
         /// </summary>
         public abstract object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed);
 
-        public abstract Type GetEnumProperty(string i_PropertyName);
+        public abstract Type GetSelfPropertyType(string i_PropertyName);
 
+        public virtual Vehicle DeepClone() 
+        {
+            Vehicle deepClonedVehicle = (Vehicle)this.MemberwiseClone();
+            int i = 0;
+            foreach (Wheel wheel in deepClonedVehicle.Wheels) //todo getter Wheels or Tyres
+            {
+                deepClonedVehicle.Wheels.CopyTo(this.Wheels, i);
+            }
+
+            deepClonedVehicle.m_Engine = this.m_Engine; // TODO shallow clone ?
+
+            return deepClonedVehicle;
+        }
     }
 }
