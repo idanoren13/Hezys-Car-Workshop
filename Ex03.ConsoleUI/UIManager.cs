@@ -52,24 +52,24 @@ namespace Ex03.ConsoleUI
 
         public void InsertNewVehicle()
         {
-            //VehicleFactory.eVehicleType vehicleType;
-            //string model, licenseNumber, ownersName, ownersNumber;
+            VehicleFactory.eVehicleType vehicleType;
+            string model, licenseNumber, ownersName, ownersNumber;
 
-            //ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
-            //vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
-            //ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
-            //m_Garage.CheckIfVehicleExists(licenseNumber);
-            //m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
-            //getEngineTypeInput();
-            //ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType);
-            //setNewVehicleWheels();
-            //initUniqueVehicleProperties();
+            ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
+            vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
+            ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
+            m_Garage.CheckIfVehicleExists(licenseNumber);
+            m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
+            getEngineTypeInput();
+            ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType);
+            setNewVehicleWheels();
+            initUniqueVehicleProperties();
 
-            VehicleFactory factory = new VehicleFactory();
-            Vehicle newVehicle;
-            newVehicle = factory.CreatVehicle(VehicleFactory.eVehicleType.Car, "Toyota", "123", "Idan", "0546446798");
-            m_Garage.AddVehicle(newVehicle, "123");
-            addTyrePressureFromInput();
+            //VehicleFactory factory = new VehicleFactory();
+            //Vehicle newVehicle;
+            //newVehicle = factory.CreatVehicle(VehicleFactory.eVehicleType.Car, "Toyota", "123", "Idan", "0546446798");
+            //m_Garage.AddVehicle(newVehicle, "123");
+            //addTyrePressureFromInput();
         }
 
         private int readEnumFromConsole(Type i_EnumType)
@@ -222,11 +222,6 @@ namespace Ex03.ConsoleUI
             return newWheel;
         }
 
-        //public void SetValueForUniqueProperty(PropertyInfo i_UniquePropertyInfo, Vehicle i_NewVehicle, string i_NewPropertyValue)
-        //{
-        //    i_UniquePropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_UniquePropertyInfo, i_NewPropertyValue), null);
-        //}
-
         public void CheckValidMenuChoice(string i_Input)
         {
             if (!int.TryParse(i_Input, out int parsedInteger))
@@ -287,7 +282,7 @@ namespace Ex03.ConsoleUI
                 else
                 { // still in Progerss dont touch!
                     Console.WriteLine(string.Format("please enter {0} as {1}:{2}",
-                        ConsoleHandler.BeautifyName(method.Name.Remove(0, 4)),
+                        ConsoleHandler.PrintCamelCase(method.Name.Remove(0, 4)),
                         method.GetParameters()[0].ParameterType.Name, Environment.NewLine));
                     getParameterForMethod[0] = Console.ReadLine();
                     type = method.GetParameters()[0].ParameterType;
@@ -297,8 +292,6 @@ namespace Ex03.ConsoleUI
                     dynamicTryPraseParameters[0] = Console.ReadLine();
 
                     dynamicTryPrase.Invoke(type, dynamicTryPraseParameters);
-
-
                 }
             }
         }

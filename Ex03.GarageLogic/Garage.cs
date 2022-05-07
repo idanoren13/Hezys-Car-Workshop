@@ -34,15 +34,7 @@ namespace Ex03.GarageLogic
             r_Factory = new VehicleFactory();
         }
 
-        public Vehicle GetVehicle(string i_LicenseNumber)
-        {
-            return r_GarageVehicles[i_LicenseNumber];
-        }
 
-        public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
-        {
-            return r_GarageVehicles.Keys;
-        }
 
         public Dictionary<string, Vehicle>.KeyCollection PlatesList
         {
@@ -59,11 +51,21 @@ namespace Ex03.GarageLogic
             get => m_Options;
         }
 
+        public Vehicle GetVehicle(string i_LicenseNumber)
+        {
+            return r_GarageVehicles[i_LicenseNumber];
+        }
+
         public void AddVehicle(Vehicle i_Vehicle, string i_LicenseNumber)
         {
             r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
         }
 
+        public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
+        {
+            return r_GarageVehicles.Keys;
+        }
+        
         public void FillTyresMaxAirPressure(string i_LicenseNumber)
         {
             bool isValueFatched = r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
@@ -102,16 +104,10 @@ namespace Ex03.GarageLogic
             return currentVehicle.Status;
         }
 
-
         public int GetNumberOfWheels(string i_LicenseNumber)
         {
             return r_GarageVehicles[i_LicenseNumber].NumberOfWheels;
         }
-
-        //public void SetValueOfEnumProperty(PropertyInfo i_EnumPropertyInfo, Vehicle i_NewVehicle, string i_NewEnumValue)
-        //{
-        //    i_EnumPropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_EnumPropertyInfo, i_NewEnumValue), null);
-        //}
 
         public const string k_NotIntError = "Error: non Integer number entered!";
 

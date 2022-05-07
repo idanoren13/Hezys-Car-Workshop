@@ -18,7 +18,7 @@ namespace Ex03.ConsoleUI
             int i = 0;
             StringBuilder messageToScreen = new StringBuilder();
 
-            messageToScreen.Append(string.Format("to select {0}:{1}", BeautifyEnumName(i_MatchingTypeEnum), Environment.NewLine));
+            messageToScreen.Append(string.Format("to select {0}:{1}", PrintEnumName(i_MatchingTypeEnum), Environment.NewLine));
             foreach (Enum enumType in Enum.GetValues(i_MatchingTypeEnum))
             {
                 messageToScreen.Append(string.Format("Press {0} to pick a {1}{2}", i, enumType.ToString(), Environment.NewLine));
@@ -29,16 +29,16 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        public static string BeautifyEnumName(Type i_EnumType)
+        public static string PrintEnumName(Type i_EnumType)
         {
             string shortendEnumName = i_EnumType.Name.Remove(0, 1);
 
-            shortendEnumName = BeautifyName(shortendEnumName);
+            shortendEnumName = PrintCamelCase(shortendEnumName);
 
             return shortendEnumName;
         }
 
-        public static string BeautifyName(string i_PropertyName)
+        public static string PrintCamelCase(string i_PropertyName)
         {
             for (int i = 0; i < i_PropertyName.Length - 1; i++)
             {
