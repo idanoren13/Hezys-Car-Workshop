@@ -27,11 +27,6 @@ namespace Ex03.GarageLogic.Vehicles
         private eDoorsAmount m_AmountOfDoors;
         private eColor eCarColor;
 
-        private const int k_MaxColorVal = 3;//todo
-        private const int k_MinColorVal = 0;//todo
-        private const int k_MaxDoorsVal = 3;//todo
-        private const int k_MinDoorsVal = 0;//todo
-
         public eColor Color
         {
             get => eCarColor;
@@ -68,5 +63,15 @@ namespace Ex03.GarageLogic.Vehicles
             base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber, VehicleFactory.eVehicleType.Car)
         { }
 
+        public override string ToString()
+        {
+            StringBuilder carToString = new StringBuilder();
+
+            carToString.Append(generalInfoToString());
+            carToString.Append($"{Environment.NewLine}The amount of doors: {this.m_AmountOfDoors} ");
+            carToString.Append($"{Environment.NewLine}The Color is: {this.eCarColor} ");
+
+            return carToString.ToString();
+        }
     }
 }

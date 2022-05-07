@@ -106,6 +106,41 @@ namespace Ex03.ConsoleUI
             return parseEnum;
         }
 
+        public int readIntFromConsole(Type i_Type, int i_MinValue, int i_MaxValue)
+        {
+            int parseInt = default;
+            bool exceptionFlag = false;
+
+            while (!exceptionFlag)
+            {
+                try
+                {
+                    if (!int.TryParse(Console.ReadLine(), out parseInt))
+                    {
+                        throw new FormatException(Garage.k_NotIntError);
+                    }
+                    else if (parseInt < i_MinValue || parseInt > i_MaxValue)
+                    {
+                        throw new ValueOutOfRangeException(i_MaxValue, i_MinValue);
+                    }
+
+                    exceptionFlag = true;
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                catch (ValueOutOfRangeException vofre)
+                {
+                    Console.WriteLine(vofre.ToString());
+                }
+            }
+
+            return parseInt;
+        }
+
+
+
         private void getEngineTypeInput()
         {
             VehicleParts.Engine.eEngineType engineType;
@@ -145,8 +180,6 @@ namespace Ex03.ConsoleUI
                 }
             }
         }
-
-     
 
         private void addTyrePressureFromInput()
         {
@@ -260,8 +293,6 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException("Error: negative phone number!");
             }
         }
-
-
 
         private void initUniqueVehicleProperties() //TODO fix get doors starts from 2 in the menu its starts from 0. add to user choice or smthn
         {

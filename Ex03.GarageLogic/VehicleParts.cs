@@ -51,6 +51,17 @@ namespace Ex03.GarageLogic
                 m_CurrentAirPressure = m_MaxAirPressure;
             }
 
+            public override string ToString()
+            {
+                StringBuilder WheelToString = new StringBuilder();
+
+                WheelToString.Append("Wheels manufacturer:  ");
+                WheelToString.Append(this.m_ManufacturerName);
+                WheelToString.Append($"{Environment.NewLine}Wheels Pressure: {this.CurrentAirPressure} Psi ");
+
+                return WheelToString.ToString();
+            }
+
         }
 
         public abstract class Engine
@@ -116,6 +127,21 @@ namespace Ex03.GarageLogic
             void SuperCharge(float i_AddEnergy)
             {
                 addEnergy(i_AddEnergy);   
+            }
+
+            public override string ToString()
+            {
+                StringBuilder ElectricEngineToString = new StringBuilder();
+
+                ElectricEngineToString.Append($"Battery Time Left: {this.m_CurrentEnergyCapacity} hours.");
+                ElectricEngineToString.Append($"{Environment.NewLine}Model: ");
+                ElectricEngineToString.Append(this.m_MaxEnergyCapacity);
+                ElectricEngineToString.Append($"{Environment.NewLine}Owners: ");
+                ElectricEngineToString.Append(this.OwnersName);
+                ElectricEngineToString.Append($"{Environment.NewLine}Status: ");
+                ElectricEngineToString.Append(this.Status);
+
+                return ElectricEngineToString.ToString();
             }
         }
 

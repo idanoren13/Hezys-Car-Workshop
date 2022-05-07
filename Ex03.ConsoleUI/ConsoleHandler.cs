@@ -92,7 +92,7 @@ namespace Ex03.ConsoleUI
 
             return energyPercentage;
         }
-
+        
         public static void PrintEnum<genericEnum>()
         {
             genericEnum enumType = default;

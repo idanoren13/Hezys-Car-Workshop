@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using static Ex03.GarageLogic.VehicleParts; // todo ?
+using static Ex03.GarageLogic.VehicleParts;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -107,6 +108,37 @@ namespace Ex03.GarageLogic
             {
                 wheel.MaxAirPressure = i_MaxAirPresure;
             }
+        }
+
+        protected string generalInfoToString()
+        {
+            StringBuilder VehicleToString = new StringBuilder();
+
+            VehicleToString.Append("License Number: ");
+            VehicleToString.Append(this.LicenseNumber);
+            VehicleToString.Append($"{Environment.NewLine}Model: ");
+            VehicleToString.Append(this.Model);
+            VehicleToString.Append($"{Environment.NewLine}Owners: ");
+            VehicleToString.Append(this.OwnersName);
+            VehicleToString.Append($"{Environment.NewLine}Status: ");
+            VehicleToString.Append(this.Status);
+
+            return VehicleToString.ToString();
+        }
+
+        public string ToStringAllWheels()
+        {
+            int wheelIndex = 0;
+            StringBuilder WheelsToString = new StringBuilder();
+
+            foreach (Wheel wheel in m_Wheels)
+            {
+                WheelsToString.Append($"{Environment.NewLine}Wheel number: {wheelIndex + 1}");
+                WheelsToString.Append(wheel.ToString());
+                wheelIndex++;
+            }
+
+            return WheelsToString.ToString();
         }
     }
 }

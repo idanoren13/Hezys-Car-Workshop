@@ -36,5 +36,16 @@ namespace Ex03.GarageLogic.Vehicles
             get => m_LicenseType; 
             set => m_LicenseType = value; 
         }
+
+        public override string ToString()
+        {
+            StringBuilder motorbikeToString = new StringBuilder();
+
+            motorbikeToString.Append(generalInfoToString());
+            motorbikeToString.Append($"{Environment.NewLine}The License Type is: {this.m_LicenseType} ");
+            motorbikeToString.Append($"{Environment.NewLine}The Engine Volume: {this.m_EngineVolume} ");
+
+            return motorbikeToString.ToString();
+        }
     }
 }
