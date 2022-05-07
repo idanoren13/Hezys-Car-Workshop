@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
-
-using System.Collections.ObjectModel;
 using System.Reflection;
 using static Ex03.GarageLogic.VehicleParts; // todo ?
 
@@ -28,6 +23,7 @@ namespace Ex03.GarageLogic
         private readonly string r_OwnersName;
         private readonly string r_OwnersNumber;
         private readonly VehicleFactory.eVehicleType r_VehicleType;
+        private List<MethodInfo> m_UniqueMethods;
 
         /// <summary>
         /// Vehicle c'tor
@@ -39,10 +35,16 @@ namespace Ex03.GarageLogic
             r_LicenseNumber = i_LicenseNumber;
             r_NumberOfWheels = i_NumberOfWheels;
             m_Wheels = new Wheel[i_NumberOfWheels];
+            for (int i = 0; i < i_NumberOfWheels; i++)
+            {
+                m_Wheels[i] = new Wheel();
+            }
+
             m_Status = eVehicleStatus.InProcess;
             r_OwnersName = i_OwnersName;
             r_OwnersNumber = i_OwnersNumber;
             r_VehicleType = i_VehicleType;
+            //m_UniqueProperties = new List<PropertyInfo>();
         }
 
         public Engine Engine
@@ -93,27 +95,10 @@ namespace Ex03.GarageLogic
             get => r_VehicleType;
         }
 
-        //todo internal or public ,U? u? 
-        /// <summary>
-        /// this method imposes parsing responsebilty 
-        /// To all those who inherit from me Vehicle
-        /// </summary>
-        public abstract object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed);
-
-        public abstract Type GetSelfPropertyType(string i_PropertyName);
-
-        public virtual Vehicle DeepClone() 
-        {
-            Vehicle deepClonedVehicle = (Vehicle)this.MemberwiseClone();
-            int i = 0;
-            foreach (Wheel wheel in deepClonedVehicle.m_Wheels) //todo getter Wheels or Tyres
-            {
-                deepClonedVehicle.m_Wheels.CopyTo(this.m_Wheels, i);
-            }
-
-            deepClonedVehicle.m_Engine = this.m_Engine; // TODO shallow clone ?
-
-            return deepClonedVehicle;
+        public List<MethodInfo> UniqueMethods
+        { 
+            get => m_UniqueMethods;
+            set => m_UniqueMethods = value;
         }
 
         public void SetMaxAirPressure(float i_MaxAirPresure)

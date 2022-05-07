@@ -44,7 +44,10 @@ namespace Ex03.GarageLogic
             get => r_GarageVehicles.Keys;
         }
 
-        public VehicleFactory R_Factory => r_Factory;
+        public VehicleFactory Factory
+        {
+            get => r_Factory;
+        }
 
         public eGarageOptions Options 
         {
@@ -78,10 +81,10 @@ namespace Ex03.GarageLogic
             return currentVehicle.Status;
         }
 
-        public void SetValueOfEnumProperty(PropertyInfo i_EnumPropertyInfo, Vehicle i_NewVehicle, string i_NewEnumValue)
-        {
-            i_EnumPropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_EnumPropertyInfo, i_NewEnumValue), null);
-        }
+        //public void SetValueOfEnumProperty(PropertyInfo i_EnumPropertyInfo, Vehicle i_NewVehicle, string i_NewEnumValue)
+        //{
+        //    i_EnumPropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_EnumPropertyInfo, i_NewEnumValue), null);
+        //}
 
         public const string k_NotIntError = "Error: non Integer number entered!";
 
@@ -100,6 +103,7 @@ namespace Ex03.GarageLogic
             }
         }
 
+        //TODO: bad method not console write line in logic
         private int setPressureFromInput(string i_LicenseNumber, int i_CurrentIndex, VehicleParts.Wheel i_Wheel)
         {
             bool isNumeric;
@@ -141,11 +145,5 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Error:Could Not fined Vehicle");
             }
         }
-        //public float GetAmountOfEnergy
-        //public float GetMaxAmountOfEnergy
-
-
-        //mathods
-
     }
 }

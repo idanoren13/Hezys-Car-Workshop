@@ -27,7 +27,6 @@ namespace Ex03.ConsoleUI
             four
         }
 
-
         public bool getInputForAction(Garage.eGarageOptions i_GetCurrentOptions) // todo more functionality
         {
             bool flag = true;
@@ -51,68 +50,119 @@ namespace Ex03.ConsoleUI
             return flag;
         }
 
-        private void insertNewVehicle()
+        public void insertNewVehicle()
         {
             VehicleFactory.eVehicleType vehicleType;
             string model, licenseNumber, ownersName, ownersNumber;
 
             ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
-            vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole();
-            Console.WriteLine(string.Format("Please enter Your name: {0}", Environment.NewLine));
-            ownersName = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your number: {0}", Environment.NewLine));
-            ownersNumber = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your {0} model: {1}", vehicleType.ToString(), Environment.NewLine));
-            model = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your license Number: {0}", Environment.NewLine));
-            licenseNumber = Console.ReadLine();
-
-            m_NewVehicle = m_Garage.R_Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
-
-            if (m_NewVehicle.Engine == null)
-            {
-                selectAndInitilizeEngine();
-            }
+            vehicleType = (VehicleFactory.eVehicleType)readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
+            ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
+            m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
+            selectAndInitilizeEngine();
+            ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType);
+            setNewVehicleWheels();
+            initUniqueVehicleProperties();
         }
-        
-        private int readEnumFromConsole()
+
+        private int readEnumFromConsole(Type i_EnumType)
         {
-            uint parseEnum;
-            int maxEnumValue = Enum.GetValues(typeof(VehicleFactory.eVehicleType)).Length;
+            int parseEnum = int.MaxValue;
+            int maxEnumValue = Enum.GetValues(i_EnumType).Length - 1;
+            bool exceptionFlag = false;
 
-            if (!uint.TryParse(Console.ReadLine(), out parseEnum))
+            while (!exceptionFlag)
             {
-                throw new FormatException(Garage.k_NotIntError);
-            }
-            else if (parseEnum < 0 || parseEnum >= maxEnumValue)
-            {
-                throw new ValueOutOfRangeException(maxEnumValue, 0);
+                try
+                {
+                    if (!int.TryParse(Console.ReadLine(), out parseEnum))
+                    {
+                        throw new FormatException(Garage.k_NotIntError);
+                    }
+                    else if (parseEnum < 0 || parseEnum > maxEnumValue)
+                    {
+                        throw new ValueOutOfRangeException(maxEnumValue, 0);
+                    }
+
+                    exceptionFlag = true;
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                catch(ValueOutOfRangeException vofre)
+                {
+                    Console.WriteLine(vofre.ToString());
+                }
             }
 
-            return (int)parseEnum;
+            return parseEnum;
         }
 
         private void selectAndInitilizeEngine()
         {
             VehicleParts.Engine.eEngineType engineType;
-            VehicleParts.CombustionEngine.eFuelType fuelType = default;
 
             ConsoleHandler.PrintEnum<VehicleParts.Engine.eEngineType>();
-            engineType = (VehicleParts.Engine.eEngineType)readEnumFromConsole();
+            engineType = (VehicleParts.Engine.eEngineType)readEnumFromConsole(typeof(VehicleParts.Engine.eEngineType));
+            m_NewVehicle.Engine = m_Garage.Factory.CreateEngine(engineType, m_NewVehicle.VehicleType);
+        }
 
-            if (engineType == VehicleParts.Engine.eEngineType.Fuel)
+        private void setNewVehicleWheels()
+        {
+            int userChoice = -1;
+            VehicleParts.Wheel tempWheel;
+
+            Console.WriteLine("please select if you want to set all tyres in once press 1{0}" +
+                                "set each tyre individuality press 0{1}", Environment.NewLine, Environment.NewLine);
+            
+            while (!int.TryParse(Console.ReadLine(),out userChoice) || (userChoice != 1 && userChoice != 0))
             {
-                ConsoleHandler.PrintEnum<VehicleParts.CombustionEngine.eFuelType>();
-                fuelType = (VehicleParts.CombustionEngine.eFuelType)readEnumFromConsole();
+                Console.WriteLine("please enter 1 or 0");
             }
 
-            m_NewVehicle.Engine = m_Garage.R_Factory.CreateEngine(engineType, m_NewVehicle.VehicleType);
+            if (userChoice == 1)
+            {
+                tempWheel = setSingleWheel(m_NewVehicle.Wheels[0].MaxAirPressure);
+                foreach (VehicleParts.Wheel wheel in m_NewVehicle.Wheels)
+                {
+                    wheel.CurrentAirPressure = tempWheel.CurrentAirPressure;
+                    wheel.ManufacturerName = tempWheel.ManufacturerName;
+                }
+            }
+            else
+            {
+                foreach (VehicleParts.Wheel wheel in m_NewVehicle.Wheels)
+                {
+                    tempWheel = setSingleWheel(m_NewVehicle.Wheels[0].MaxAirPressure);
+                    wheel.CurrentAirPressure = tempWheel.CurrentAirPressure;
+                    wheel.ManufacturerName = tempWheel.ManufacturerName;
+                }
+            }
         }
 
-        public void SetValueForUniqueProperty(PropertyInfo i_UniquePropertyInfo, Vehicle i_NewVehicle, string i_NewPropertyValue)
+        private VehicleParts.Wheel setSingleWheel(float i_MaxAirPressure)
         {
-            i_UniquePropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_UniquePropertyInfo, i_NewPropertyValue), null);
+            VehicleParts.Wheel newWheel = new VehicleParts.Wheel();
+            float currentAirPressure = -1;
+            Console.WriteLine("please enter the wheel's manufacturer name:");
+            newWheel.ManufacturerName = Console.ReadLine();
+            Console.WriteLine("please enter the wheel's current psi name:");
+            while (!float.TryParse(Console.ReadLine(),out currentAirPressure) || 
+                (currentAirPressure < 0 && currentAirPressure > i_MaxAirPressure))
+            {
+                Console.WriteLine("invalid input");
+            }
+
+            newWheel.CurrentAirPressure = currentAirPressure;
+
+            return newWheel;
         }
+
+        //public void SetValueForUniqueProperty(PropertyInfo i_UniquePropertyInfo, Vehicle i_NewVehicle, string i_NewPropertyValue)
+        //{
+        //    i_UniquePropertyInfo.SetValue(i_NewVehicle, i_NewVehicle.SelfParser(i_UniquePropertyInfo, i_NewPropertyValue), null);
+        //}
 
         private void checkValidMenuChoice(string i_Input)
         {
@@ -126,7 +176,6 @@ namespace Ex03.ConsoleUI
                 throw new ValueOutOfRangeException(2, 0);
             }
         }
-
 
         private void checkLicenseNumberInput(string i_Input)
         {
@@ -161,6 +210,41 @@ namespace Ex03.ConsoleUI
             Console.WriteLine($"Please enter the license number, followed by an ENTER.{Environment.NewLine}");
             m_Garage.FillTyresAirPressure(userChoice);
             Console.WriteLine($"success fillilng pressure. {Environment.NewLine}");
+        }
+        
+        private void initUniqueVehicleProperties()
+        {
+            object []getParameterForMethod = new object[1];
+            Type type;
+            //Type[] valTypes = new Type[] { typeof(float), typeof(int), typeof(bool) };
+            MethodInfo dynamicTryPrase;
+            object[] dynamicTryPraseParameters = new object[2]; 
+
+            foreach (MethodInfo method in m_NewVehicle.UniqueMethods)
+            {
+                if (method.GetParameters()[0].ParameterType.IsEnum)
+                {
+                    ConsoleHandler.EnumsConsoleMessage(method.GetParameters()[0].ParameterType);
+                    getParameterForMethod[0] = readEnumFromConsole(method.GetParameters()[0].ParameterType);
+                    method.Invoke(m_NewVehicle, getParameterForMethod);
+                }
+                else
+                { // still in Progerss dont touch!
+                    Console.WriteLine(string.Format("please enter {0} as {1}:{2}", 
+                        ConsoleHandler.BeautifyName(method.Name.Remove(0,4)),
+                        method.GetParameters()[0].ParameterType.Name, Environment.NewLine));
+                    getParameterForMethod[0] = Console.ReadLine();
+                    type = method.GetParameters()[0].ParameterType;
+
+                    dynamicTryPrase = method.GetParameters()[0].ParameterType.GetMethod("TryPrase");
+
+                    dynamicTryPraseParameters[0] = Console.ReadLine();
+
+                    dynamicTryPrase.Invoke(type, dynamicTryPraseParameters);
+
+
+                }
+            }
         }
     }
 }

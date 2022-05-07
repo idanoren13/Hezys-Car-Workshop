@@ -25,5 +25,10 @@ namespace Ex03.GarageLogic
         {
             get => m_MinValue;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Error: invalid value the inserted value is out of range minimum:{0} maxsimum:{1}", m_MinValue, m_MaxValue);
+        }
     }
 }

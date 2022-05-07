@@ -64,67 +64,9 @@ namespace Ex03.GarageLogic.Vehicles
             }
         }
 
-
         public Car(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) :
             base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber, VehicleFactory.eVehicleType.Car)
         { }
 
-        public override object SelfParser(PropertyInfo i_PropertyToParse, object i_ValueToParse)
-        {
-            object parsedValue = null;
-            if (i_ValueToParse != null)
-            {
-                string strValue = i_ValueToParse as string;
-                //Wheel wheel in i_Vehicle.Wheels
-                if (Equals(i_PropertyToParse, this.GetType().GetProperty("Color")))
-                {
-                    //TODO: check valid input
-                    parsedValue = Enum.Parse(typeof(eColor), strValue);
-                }
-                else //it's the number of doors
-                {
-                    parsedValue = Enum.Parse(typeof(eDoorsAmount), strValue);
-                }
-            }
-            else // parsedValue == null -> only return the object string that represents the properties value
-            {
-                if (Equals(i_PropertyToParse, this.GetType().GetProperty("Color")))
-                {
-                    //TODO: check valid input
-                    parsedValue = eCarColor.ToString();
-                }
-                else //it's the number of doors
-                {
-                    parsedValue = m_AmountOfDoors.ToString();
-                }
-            }
-            return parsedValue;
-        }
-
-        public override Type GetSelfPropertyType(string i_PropertyName)
-        {
-            Type uniqeType;
-
-            if (i_PropertyName == "Color")
-            {
-                uniqeType = typeof(eColor);
-            }
-            else if (i_PropertyName == "DoorsAmount")
-            {
-                uniqeType = typeof(eDoorsAmount);
-            }
-            else
-            {
-                throw new ArgumentException("BadPropertyName:No_such_property"); //TODO ?
-            }
-
-            return uniqeType;
-        }
-
-        public override Vehicle DeepClone()
-        {
-            Car clonedCar = base.DeepClone() as Car;
-            return clonedCar;
-        }
     }
 }

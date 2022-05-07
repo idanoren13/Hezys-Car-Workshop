@@ -24,6 +24,12 @@ namespace Ex03.GarageLogic
                 get => m_MaxAirPressure;
                 set => m_MaxAirPressure = value;
             }
+            
+            public string ManufacturerName 
+            { 
+                get => m_ManufacturerName; 
+                set => m_ManufacturerName = value; 
+            }
 
             public void AddAir(int i_AddedPressure) 
             {
@@ -56,12 +62,18 @@ namespace Ex03.GarageLogic
 
             protected float m_CurrentEnergyCapacity;
             protected float m_MaxEnergyCapacity;
-            protected readonly eEngineType r_EngineType;
+            private readonly eEngineType r_EngineType;
+
 
             protected Engine(eEngineType i_EngineType)
             {
                 //m_MaxEnergyCapacity = i_MaxEnergyCapacity;
                 r_EngineType = i_EngineType;
+            }
+            
+            public eEngineType EngineType
+            {
+                get => r_EngineType;
             }
 
             public float GetEnergyPrecent()

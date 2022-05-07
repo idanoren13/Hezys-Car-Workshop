@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using Ex03.GarageLogic; 
+using Ex03.GarageLogic;
 using System.Reflection;
 
 namespace Ex03.ConsoleUI
@@ -19,6 +19,7 @@ namespace Ex03.ConsoleUI
             int i = 0;
             StringBuilder messageToScreen = new StringBuilder();
 
+            messageToScreen.Append(string.Format("to select {0}:{1}", BeautifyEnumName(i_MatchingTypeEnum), Environment.NewLine));
             foreach (Enum enumType in Enum.GetValues(i_MatchingTypeEnum))
             {
                 messageToScreen.Append(string.Format("Press {0} to pick a {1}{2}", i, enumType.ToString() ,Environment.NewLine));
@@ -28,7 +29,29 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        public static void NewVehilceMessage(PropertyInfo[] i_VehicleProperties)
+        public static string BeautifyEnumName(Type i_EnumType)
+        {
+            string shortendEnumName = i_EnumType.Name.Remove(0, 1);
+
+            shortendEnumName = BeautifyName(shortendEnumName);
+
+            return shortendEnumName;
+        }
+
+        public static string BeautifyName(string i_PropertyName)
+        {
+            for (int i = 0; i < i_PropertyName.Length - 1; i++)
+            {
+                if (char.IsLower(i_PropertyName[i]) && char.IsUpper(i_PropertyName[i + 1]))
+                {
+                    i_PropertyName = i_PropertyName.Insert(i + 1, " ");
+                }
+            }
+
+            return i_PropertyName;
+        }
+
+        public static void UniquePropertiesVehilceMessage(List<PropertyInfo> i_VehicleProperties)
         {
             int i = 0;
             StringBuilder messageToScreen = new StringBuilder();
@@ -40,6 +63,32 @@ namespace Ex03.ConsoleUI
             }
 
             Console.WriteLine(messageToScreen);
+        }
+
+        public static void GetBasicInfoFromConsole(VehicleFactory.eVehicleType i_VehicleType, out string o_Model, out string o_LicenseNumber, out string o_OwnersName, out string o_OwnersNumber)
+        {
+            Console.WriteLine(string.Format("Please enter Your name: {0}", Environment.NewLine));
+            o_OwnersName = Console.ReadLine();
+            Console.WriteLine(string.Format("Please enter Your number: {0}", Environment.NewLine));
+            o_OwnersNumber = Console.ReadLine();
+            Console.WriteLine(string.Format("Please enter Your {0} model: {1}", i_VehicleType.ToString(), Environment.NewLine));
+            o_Model = Console.ReadLine();
+            Console.WriteLine(string.Format("Please enter Your license Number: {0}", Environment.NewLine));
+            o_LicenseNumber = Console.ReadLine();
+        }
+
+        public static float GetEnergyPercentage(VehicleParts.Engine.eEngineType i_EngineType)
+        {
+            float energyPercentage;
+
+            Console.WriteLine(string.Format("Please enter your {0} percentage",
+                i_EngineType == VehicleParts.Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
+            while (!float.TryParse(Console.ReadLine(), out energyPercentage) || (energyPercentage > 1 || energyPercentage < 0))
+            {
+                Console.WriteLine("invalid input please enter a value between 0 to 1");
+            }
+
+            return energyPercentage;
         }
 
         public static void PrintEnum<genericEnum>()

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 
 namespace Ex03.GarageLogic
 {
@@ -21,11 +20,11 @@ namespace Ex03.GarageLogic
             switch (i_Type)
             {
                 case eVehicleType.Car:
-                    newVehicle = new Ex03.GarageLogic.Vehicles.Car(i_ModelName, i_LicenseNumber, 4, i_OwnersName, i_OwnersNumber);
+                    newVehicle = new Vehicles.Car(i_ModelName, i_LicenseNumber, 4, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(29f);
                     break;
                 case eVehicleType.MotorBike:
-                    newVehicle = new Ex03.GarageLogic.Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
+                    newVehicle = new Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(31f);
                     break;
                 //case eVehicleType.Truck:
@@ -35,8 +34,9 @@ namespace Ex03.GarageLogic
                     throw new ArgumentException("Bad Vehicle Type, This type of vehicle is not recognizeble");
                     break;
             }
-
-
+            
+            newVehicle.UniqueMethods = InitUniqueMethods(newVehicle);
+            
             return newVehicle;
         }
 
@@ -125,6 +125,23 @@ namespace Ex03.GarageLogic
             }
 
             return capacity;
+        }
+
+        private List<MethodInfo> InitUniqueMethods(Vehicle i_NewVehicle)
+        {
+            MethodInfo[] allMethods = i_NewVehicle.GetType().GetMethods();
+            List<MethodInfo> uniqueMethods = new List<MethodInfo>();
+
+            foreach (MethodInfo currentCheckedMethod in allMethods)
+            {
+                if (currentCheckedMethod.Name.Contains("set_") == true 
+                    && typeof(Vehicle).GetMethod(currentCheckedMethod.Name) == null)
+                {
+                    uniqueMethods.Add(currentCheckedMethod);
+                }
+            }
+
+            return uniqueMethods;
         }
     }
 }

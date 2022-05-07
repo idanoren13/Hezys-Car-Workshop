@@ -36,30 +36,5 @@ namespace Ex03.GarageLogic.Vehicles
             get => m_LicenseType; 
             set => m_LicenseType = value; 
         }
-
-        public override Type GetSelfPropertyType(string i_PropertyName)
-        {
-            Type specificType;
-
-            if (i_PropertyName == "LicenseType")
-            {
-                specificType = typeof(eLicenseType);
-            }
-            else if (i_PropertyName == "EngineVolume")
-            {
-                specificType = typeof(int);
-            }
-            else
-            {
-                throw new ArgumentException("BadEnumType:No_such_property"); //TODO ?
-            }
-
-            return specificType;
-        }
-
-        public override object SelfParser(PropertyInfo i_PropertyToBeParsed, object valueToBeParsed)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
