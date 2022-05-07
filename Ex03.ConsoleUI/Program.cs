@@ -13,7 +13,7 @@ namespace Ex03.ConsoleUI
         {
             UIManager ui = new UIManager();
 
-            ui.insertNewVehicle();
+            ui.InsertNewVehicle();
 
             //test
             //VehicleFactory factory = new VehicleFactory();
@@ -26,7 +26,7 @@ namespace Ex03.ConsoleUI
             //VehicleParts.Engine engine = new VehicleParts.CombustionEngine();
 
             //newVehicle = factory.CreatVehicle(VehicleFactory.eVehicleType.Car, "Toyota", "7653550", "Idan", "0546446798");
-
+            
 
             //propertiesInfo = newVehicle.GetType().GetProperties();
             //ConsoleHandler.NewVehilceMessage(propertyInfo);
