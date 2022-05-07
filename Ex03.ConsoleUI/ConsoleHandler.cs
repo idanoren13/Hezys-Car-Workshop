@@ -25,7 +25,7 @@ namespace Ex03.ConsoleUI
                 messageToScreen.Append(string.Format("Press {0} to pick a {1}{2}", i, enumType.ToString() ,Environment.NewLine));
                 ++i;
             }
-
+            messageToScreen.Remove(messageToScreen.Length - 1, 1);
             Console.WriteLine(messageToScreen);
         }
 
@@ -67,13 +67,13 @@ namespace Ex03.ConsoleUI
 
         public static void GetBasicInfoFromConsole(VehicleFactory.eVehicleType i_VehicleType, out string o_Model, out string o_LicenseNumber, out string o_OwnersName, out string o_OwnersNumber)
         {
-            Console.WriteLine(string.Format("Please enter Your name: {0}", Environment.NewLine));
+            Console.WriteLine(string.Format("Please enter Your name: "));
             o_OwnersName = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your number: {0}", Environment.NewLine));
+            Console.WriteLine(string.Format("Please enter Your number: "));
             o_OwnersNumber = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your {0} model: {1}", i_VehicleType.ToString(), Environment.NewLine));
+            Console.WriteLine(string.Format("Please enter Your {0} model: ", i_VehicleType.ToString()));
             o_Model = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter Your license Number: {0}", Environment.NewLine));
+            Console.WriteLine(string.Format("Please enter Your license Number: "));
             o_LicenseNumber = Console.ReadLine();
         }
 
