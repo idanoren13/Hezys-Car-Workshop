@@ -61,15 +61,11 @@ namespace Ex03.ConsoleUI
             m_Garage.CheckIfVehicleExists(licenseNumber);
             m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
             getEngineTypeInput();
-            ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType);
+            ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType); // TODO return unused float??
             setNewVehicleWheels();
             initUniqueVehicleProperties();
-
-            //VehicleFactory factory = new VehicleFactory();
-            //Vehicle newVehicle;
-            //newVehicle = factory.CreatVehicle(VehicleFactory.eVehicleType.Car, "Toyota", "123", "Idan", "0546446798");
-            //m_Garage.AddVehicle(newVehicle, "123");
-            //addTyrePressureFromInput();
+            m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
+            printSpacificCarInfo();
         }
 
         private int readEnumFromConsole(Type i_EnumType)
@@ -139,7 +135,22 @@ namespace Ex03.ConsoleUI
             return parseInt;
         }
 
+        private void printSpacificCarInfo()
+        {
+            string licenseNumber;
+            Vehicle vehicleToDisplay;
 
+            Console.WriteLine($"Please enter the license number you wish .");
+            vehicleToDisplay = m_Garage.GetVehicle(licenseNumber = Console.ReadLine()); // todo while copy?
+            displayAllVehicleInfo(vehicleToDisplay);
+        }
+
+        private void displayAllVehicleInfo(Vehicle i_VehicleToDisplay)
+        {
+            Console.WriteLine(i_VehicleToDisplay.ToString());
+            Console.WriteLine(i_VehicleToDisplay.ToStringAllWheels());
+            Console.WriteLine(i_VehicleToDisplay.Engine.ToString());
+        }
 
         private void getEngineTypeInput()
         {
@@ -155,7 +166,7 @@ namespace Ex03.ConsoleUI
             int userChoice = -1;
             VehicleParts.Wheel tempWheel;
 
-            Console.WriteLine("Press 1 to set all tyres at once.{0}Press 0 to set each tyre individuality.{1}", Environment.NewLine, Environment.NewLine);
+            Console.WriteLine("Press 1 to set all tyres at once.{0}Press 0 to set each tyre individuality.", Environment.NewLine);
             while (!int.TryParse(Console.ReadLine(), out userChoice) || (userChoice != 1 && userChoice != 0))
             {
                 Console.WriteLine("Invalid input press 1/0");

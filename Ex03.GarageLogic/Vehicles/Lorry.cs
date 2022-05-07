@@ -18,8 +18,8 @@ namespace Ex03.GarageLogic.Vehicles
 
         public bool IsCoolingCargoAvailable 
         {
-            get => m_IsActiveTempetureAvailable; 
-            set => m_IsActiveTempetureAvailable = value; 
+            get => m_IsActiveTemprtureControl; 
+            set => m_IsActiveTemprtureControl = value; 
         }
         
         public float CargoVolume 

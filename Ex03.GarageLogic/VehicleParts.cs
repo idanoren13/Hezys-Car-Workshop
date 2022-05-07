@@ -55,9 +55,9 @@ namespace Ex03.GarageLogic
             {
                 StringBuilder WheelToString = new StringBuilder();
 
-                WheelToString.Append("Wheels manufacturer:  ");
+                WheelToString.Append("Wheel manufacturer: ");
                 WheelToString.Append(this.m_ManufacturerName);
-                WheelToString.Append($"{Environment.NewLine}Wheels Pressure: {this.CurrentAirPressure} Psi ");
+                WheelToString.Append($"{Environment.NewLine}Wheel Pressure: {this.CurrentAirPressure} Psi ");
 
                 return WheelToString.ToString();
             }
@@ -88,9 +88,9 @@ namespace Ex03.GarageLogic
                 get => r_EngineType;
             }
 
-            public float GetEnergyPrecent()
+            public float GetEnergyPercentage()
             {
-                return m_CurrentEnergyCapacity / m_MaxEnergyCapacity;
+                return m_CurrentEnergyCapacity / m_MaxEnergyCapacity * 100 ;
             }
 
             protected void addEnergy(float i_AddedVolume)
@@ -133,13 +133,8 @@ namespace Ex03.GarageLogic
             {
                 StringBuilder ElectricEngineToString = new StringBuilder();
 
-                ElectricEngineToString.Append($"Battery Time Left: {this.m_CurrentEnergyCapacity} hours.");
-                ElectricEngineToString.Append($"{Environment.NewLine}Model: ");
-                ElectricEngineToString.Append(this.m_MaxEnergyCapacity);
-                ElectricEngineToString.Append($"{Environment.NewLine}Owners: ");
-                ElectricEngineToString.Append(this.OwnersName);
-                ElectricEngineToString.Append($"{Environment.NewLine}Status: ");
-                ElectricEngineToString.Append(this.Status);
+                ElectricEngineToString.Append($"Battery time in hours Left: {this.m_CurrentEnergyCapacity} "); 
+                ElectricEngineToString.Append($"{Environment.NewLine}Max battery capacity: {this.m_MaxEnergyCapacity} ");
 
                 return ElectricEngineToString.ToString();
             }
@@ -180,6 +175,17 @@ namespace Ex03.GarageLogic
             public void addFuel(float i_AddVolume)
             {
                 addEnergy(i_AddVolume);
+            }
+
+            public override string ToString()
+            {
+                StringBuilder ElectricEngineToString = new StringBuilder();
+                float fuelPercentage = GetEnergyPercentage();
+
+                ElectricEngineToString.Append($"Feul left: {fuelPercentage}% Tank.");
+                ElectricEngineToString.Append($"{Environment.NewLine}Full tank is: {this.m_MaxEnergyCapacity} litres."); // todo ?
+
+                return ElectricEngineToString.ToString();
             }
         }
     }

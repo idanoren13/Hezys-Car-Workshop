@@ -53,6 +53,11 @@ namespace Ex03.GarageLogic
 
         public Vehicle GetVehicle(string i_LicenseNumber)
         {
+
+            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle copiedVehicle))
+            {
+                throw new KeyNotFoundException();
+            }
             return r_GarageVehicles[i_LicenseNumber];
         }
 

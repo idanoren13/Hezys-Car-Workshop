@@ -133,7 +133,7 @@ namespace Ex03.GarageLogic
 
             foreach (Wheel wheel in m_Wheels)
             {
-                WheelsToString.Append($"{Environment.NewLine}Wheel number: {wheelIndex + 1}");
+                WheelsToString.Append($"{Environment.NewLine}Wheel number: {wheelIndex + 1}{Environment.NewLine}");
                 WheelsToString.Append(wheel.ToString());
                 wheelIndex++;
             }
