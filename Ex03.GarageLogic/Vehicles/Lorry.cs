@@ -12,11 +12,11 @@ namespace Ex03.GarageLogic.Vehicles
         private float m_CargoVolume;
 
         public Lorry(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) : 
-            base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber, VehicleFactory.eVehicleType.Truck)
+            base(i_ModelName, i_LicenseNumber, i_NumberOfWheels, i_OwnersName, i_OwnersNumber, VehicleFactory.eVehicleType.Lorry)
         {
         }
 
-        public bool IsCoolingCargoAvailable 
+        public bool IsActiveTemprtureControl 
         {
             get => m_IsActiveTemprtureControl; 
             set => m_IsActiveTemprtureControl = value; 

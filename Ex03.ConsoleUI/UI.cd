@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ex03.ConsoleUI.ConsoleHandler">
+    <Position X="5" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAABAAAQAACIACAIBAAAAAuAgAoAAAIAhAAAA=</HashCode>
+      <FileName>ConsoleHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.ConsoleUI.Program">
+    <Position X="7.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.ConsoleUI.UIManager">
+    <Position X="9.5" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQJAABUAIACUAICAAAAABkAACAAAQAAAAAAAAIQ=</HashCode>
+      <FileName>UIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.DuplicateKeysException">
+    <Position X="7.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.Garage">
+    <Position X="4.5" Y="0.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.Garage.eGarageOptions" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.ValueOutOfRangeException">
+    <Position X="7.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleFactory">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.VehicleFactory.eVehicleType" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.Vehicle">
+    <Position X="2.25" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.Vehicle.eVehicleStatus" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleParts.CombustionEngine">
+    <Position X="7" Y="5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.VehicleParts.CombustionEngine.eFuelType" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleParts.ElectricEngine">
+    <Position X="9.75" Y="5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleParts.Engine">
+    <Position X="7.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.VehicleParts.Engine.eEngineType" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleParts.Wheel">
+    <Position X="10.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.Vehicles.Car">
+    <Position X="2.5" Y="7" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.Vehicles.Car.eColor" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+      <Enum Name="Ex03.GarageLogic.Vehicles.Car.eDoorsAmount" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.Vehicles.Lorry">
+    <Position X="4.75" Y="6.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ex03.GarageLogic.Vehicles.MotorBike">
+    <Position X="0.5" Y="6.75" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Ex03.GarageLogic.Vehicles.MotorBike.eLicenseType" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

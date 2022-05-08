@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         {
             Car,
             MotorBike,
-            Truck
+            Lorry
         }
 
         public Vehicle CreatVehicle(eVehicleType i_Type, string i_ModelName, string i_LicenseNumber, string i_OwnersName, string i_OwnersNumber)
@@ -27,10 +27,10 @@ namespace Ex03.GarageLogic
                     newVehicle = new Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(31f);
                     break;
-                case eVehicleType.Truck:
+                case eVehicleType.Lorry:
                     newVehicle = new Ex03.GarageLogic.Vehicles.Lorry(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(24f);
-                    newVehicle.Engine = CreateEngine(VehicleParts.Engine.eEngineType.Fuel, eVehicleType.Truck);
+                    newVehicle.Engine = CreateEngine(VehicleParts.Engine.eEngineType.Fuel, eVehicleType.Lorry);
                     break;
                 default:
                     throw new ArgumentException("Bad Vehicle Type, This type of vehicle is not recognizeble");
@@ -75,7 +75,7 @@ namespace Ex03.GarageLogic
                 case eVehicleType.MotorBike:
                     fuelType = VehicleParts.CombustionEngine.eFuelType.Octan98;
                     break;
-                case eVehicleType.Truck:
+                case eVehicleType.Lorry:
                     fuelType = VehicleParts.CombustionEngine.eFuelType.Soler;
                     break;
                 default:
@@ -99,7 +99,7 @@ namespace Ex03.GarageLogic
                     case eVehicleType.MotorBike:
                         capacity = 6.2f;
                         break;
-                    case eVehicleType.Truck:
+                    case eVehicleType.Lorry:
                         capacity = 120f;
                         break;
                     default:

@@ -41,7 +41,6 @@ namespace Ex03.GarageLogic
             r_OwnersName = i_OwnersName;
             r_OwnersPhoneNumber = i_OwnersNumber;
             r_VehicleType = i_VehicleType;
-            //m_UniqueProperties = new List<PropertyInfo>();
         }
 
         public Engine Engine

@@ -175,7 +175,7 @@ namespace Ex03.ConsoleUI
                     getEngineTypeInput();
                 }
 
-                m_NewVehicle.Engine.SetCurrentEnergyByPercentage( ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType)); // TODO return unused float??
+                m_NewVehicle.Engine.SetCurrentEnergyByPercentage(ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType)); // TODO return unused float??
                 setNewVehicleWheels();
                 initUniqueVehicleProperties();
                 m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
