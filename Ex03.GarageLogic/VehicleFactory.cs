@@ -111,10 +111,10 @@ namespace Ex03.GarageLogic
                 switch (i_VehicleType)
                 {
                     case eVehicleType.Car:
-                        capacity = 2.5f;
+                        capacity = 3.3f;
                         break;
                     case eVehicleType.MotorBike:
-                        capacity = 3.3f;
+                        capacity = 2.5f;
                         break;
                     default:
                         throw new FormatException();

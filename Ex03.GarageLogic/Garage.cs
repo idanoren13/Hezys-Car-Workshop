@@ -20,16 +20,12 @@ namespace Ex03.GarageLogic
             ExtendedInformationOfSelectedVehicle,
         }
 
-        //todo
         private readonly Dictionary<string, Vehicle> r_GarageVehicles;
         private readonly VehicleFactory r_Factory;
-        //private readonly eGarageOptions m_Options;
         const int k_NumberOfAvailableMethodsInGarage = 0;
         const string k_ParsingToIntErrorFlag = "0";
         const float k_MaxPercentage = 100;
         const float k_MinPercentage = 0;
-        //const int k_MaxNumberOfStatuses = 0; 
-        //const int k_MinNumberOfStatuses = 0;
 
         public Garage()
         {
@@ -46,11 +42,6 @@ namespace Ex03.GarageLogic
         {
             get => r_Factory;
         }
-
-        ////public eGarageOptions Options 
-        //{
-        //    get => m_Options;
-        //}
 
         public Vehicle GetVehicle(string i_LicenseNumber)
         {
@@ -135,9 +126,13 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle.eVehicleStatus GetVehicleStatus(string i_PlatesList)
+        public Vehicle.eVehicleStatus GetVehicleStatus(string i_LicenseNumber)
         {
-            r_GarageVehicles.TryGetValue(i_PlatesList, out Vehicle currentVehicle); // todo use exception in catch ?
+            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle))
+            {
+                throw new KeyNotFoundException($"Error: {i_LicenseNumber} is not in the garage");
+            }
+
             return currentVehicle.Status;
         }
 

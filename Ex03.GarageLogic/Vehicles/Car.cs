@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic.Vehicles
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, 0); // Todo max min ?
+                    throw new ValueOutOfRangeException(3, 0);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic.Vehicles
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, 3); // Todo max min ?
+                    throw new ValueOutOfRangeException(3, 0);
                 }
             }
         }

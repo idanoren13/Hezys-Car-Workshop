@@ -11,6 +11,7 @@ namespace Ex03.ConsoleUI
         private readonly Garage m_Garage;
         private Vehicle m_NewVehicle;
         private bool m_IsGarageOpen;
+        const int r_MaxParams = 2;
         public UIManager()
         {
             m_Garage = new Garage();
@@ -110,7 +111,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Please select fuel type:");
                 ConsoleHandler.PrintEnum<CombustionEngine.eFuelType>();
                 fuelType = (CombustionEngine.eFuelType)ConsoleHandler.readEnumFromConsole(typeof(CombustionEngine.eFuelType));
-                //TODO to string to engine
+                Console.WriteLine(m_Garage.GetVehicle(licenseNumber).Engine.ToString());
                 Console.WriteLine("Please select the amount of fuel to add in percenge <0 - 100>%");
                 amountToFill = Console.ReadLine();
                 m_Garage.AddFuel(licenseNumber, fuelType, float.Parse(amountToFill));
@@ -131,7 +132,7 @@ namespace Ex03.ConsoleUI
             else
             {
                 m_Garage.CheckIfEngineIsElectric(licenseNumber);
-                //TODO to string to engine
+                Console.WriteLine(m_Garage.GetVehicle(licenseNumber).Engine.ToString());
                 Console.WriteLine("Please select the amount of energy to charge percenge <0 - 100>%");
                 energyToAdd = Console.ReadLine();
                 m_Garage.Charge(licenseNumber, float.Parse(energyToAdd));
@@ -143,7 +144,6 @@ namespace Ex03.ConsoleUI
         {
             int displayListByStatus;
             
-            //displayListByStatus = ConsoleHandler.Choose1Or0("diplay by vehicle status", "display by license number");
             Console.WriteLine("select dispaly option:");
             ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
             Console.WriteLine(string.Format("press{0} to display all vehicles", Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length));
@@ -354,15 +354,18 @@ namespace Ex03.ConsoleUI
 
         private object dynamicTryParse(MethodInfo method)
         {
-            Type type;
+            Type typeToBeParsed;
             MethodInfo dynamicTryPrase;
-            object[] dynamicTryPraseParameters = new object[2];
+            object[] dynamicTryPraseParameters = new object[r_MaxParams];
             Type[] tryParseSignature;
             object isParsed = false;
 
             dynamicTryPraseParameters[1] = null;
-            type = method.GetParameters()[0].ParameterType;
-            tryParseSignature = new[] { typeof(string), type.MakeByRefType() };
+            typeToBeParsed = method.GetParameters()[0].ParameterType;
+            tryParseSignature = new Type[] 
+            {
+                typeof(string), typeToBeParsed.MakeByRefType()
+            };
 
             dynamicTryPrase = method.GetParameters()[0].ParameterType.GetMethod("TryParse", tryParseSignature);
             if (dynamicTryPrase == null)
@@ -373,12 +376,12 @@ namespace Ex03.ConsoleUI
             }
 
             dynamicTryPraseParameters[0] = Console.ReadLine();
-            isParsed = dynamicTryPrase.Invoke(type, dynamicTryPraseParameters);
+            isParsed = dynamicTryPrase.Invoke(typeToBeParsed, dynamicTryPraseParameters);
             while (!Convert.ToBoolean(isParsed))
             {
-                Console.WriteLine(string.Format("invalid input please enter {0}", type.Name));
+                Console.WriteLine(string.Format("invalid input please enter {0}", typeToBeParsed.Name));
                 dynamicTryPraseParameters[0] = Console.ReadLine();
-                isParsed = dynamicTryPrase.Invoke(type, dynamicTryPraseParameters);
+                isParsed = dynamicTryPrase.Invoke(typeToBeParsed, dynamicTryPraseParameters);
             }
 
             return dynamicTryPraseParameters[1];
