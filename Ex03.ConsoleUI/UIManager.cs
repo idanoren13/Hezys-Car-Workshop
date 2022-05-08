@@ -102,7 +102,6 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine("Please enter license number:");
             licenseNumber = Console.ReadLine();
-            
             if (m_Garage.CheckIfVehicleExists(licenseNumber))
             {
                 Console.WriteLine("select status:");
@@ -140,7 +139,7 @@ namespace Ex03.ConsoleUI
                     getEngineTypeInput();
                 }
 
-                m_NewVehicle.Engine.SetCurrentEnergyByPercentage(ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType)); // TODO return unused float??
+                m_NewVehicle.Engine.SetCurrentEnergyByPercentage(ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType));
                 setNewVehicleWheels();
                 initUniqueVehicleProperties();
                 m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
@@ -208,11 +207,18 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Please select fuel type:");
                 ConsoleHandler.PrintEnum<CombustionEngine.eFuelType>();
                 fuelType = (CombustionEngine.eFuelType)ConsoleHandler.ReadEnumFromConsole(typeof(CombustionEngine.eFuelType));
-                Console.WriteLine(m_Garage.GetVehicle(licenseNumber).Engine.ToString());
-                Console.WriteLine("Please select the amount of fuel to add in percenge <0 - 100>%");
-                amountToFill = Console.ReadLine();
-                m_Garage.AddFuel(licenseNumber, fuelType, float.Parse(amountToFill));
-                ConsoleHandler.OperationSuccededMessage();
+                if (fuelType == (m_Garage.GetVehicle(licenseNumber).Engine as CombustionEngine).FuelType)
+                {
+                    Console.WriteLine(m_Garage.GetVehicle(licenseNumber).Engine.ToString());
+                    Console.WriteLine("Please select the amount of fuel to add in percenge <0 - 100>%");
+                    amountToFill = Console.ReadLine();
+                    m_Garage.AddFuel(licenseNumber, fuelType, float.Parse(amountToFill));
+                    ConsoleHandler.OperationSuccededMessage();
+                }
+                else
+                {
+                    throw new FormatException("invalid fuel type for this vehicle");
+                }
             }
         }
 
@@ -345,12 +351,12 @@ namespace Ex03.ConsoleUI
 
         private void fillTyresAirPressureFromInput(string i_LicenseNumber)
         {
-            int i = 0;
+            int index = 0;
             Vehicle currentVehicle = m_Garage.GetVehicle(i_LicenseNumber);
 
             foreach (Wheel wheel in currentVehicle.Wheels)
             {
-                SetPressureFromInput(i_LicenseNumber, ref i, wheel);
+                SetPressureFromInput(i_LicenseNumber, ref index, wheel);
             }
         }
 

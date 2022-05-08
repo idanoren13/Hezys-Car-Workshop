@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -20,6 +19,7 @@ namespace Ex03.GarageLogic
             ExtendedInformationOfSelectedVehicle,
         }
 
+        public const string k_NotIntError = "Error: non Integer number entered!";
         private readonly Dictionary<string, Vehicle> r_GarageVehicles;
         private readonly VehicleFactory r_Factory;
 
@@ -119,6 +119,27 @@ namespace Ex03.GarageLogic
             ((VehicleParts.CombustionEngine)currentVehicle.Engine).AddFuel(i_AmountToFill, i_FuelType);
         }
 
+        public void Charge(string i_LicenseNumber, float i_EnergyToAdd)
+        {
+            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            ((VehicleParts.ElectricEngine)currentVehicle.Engine).SuperCharge(i_EnergyToAdd);
+        }
+
+        public Vehicle.eVehicleStatus GetVehicleStatus(string i_LicenseNumber)
+        {
+            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle))
+            {
+                throw new KeyNotFoundException($"Error: {i_LicenseNumber} is not in the garage");
+            }
+
+            return currentVehicle.Status;
+        }
+
+        public int GetNumberOfWheels(string i_LicenseNumber)
+        {
+            return r_GarageVehicles[i_LicenseNumber].NumberOfWheels;
+        }
+
         public void CheckIfEngineIsCombustion(string i_LicenseNumber)
         {
             r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
@@ -126,12 +147,6 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("cant fill gas on electric engine!");
             }
-        }
-
-        public void Charge(string i_LicenseNumber, float i_EnergyToAdd)
-        {
-            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
-            ((VehicleParts.ElectricEngine)currentVehicle.Engine).SuperCharge(i_EnergyToAdd);
         }
 
         public void CheckIfEngineIsElectric(string i_LicenseNumber)
@@ -159,28 +174,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle.eVehicleStatus GetVehicleStatus(string i_LicenseNumber)
-        {
-            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle))
-            {
-                throw new KeyNotFoundException($"Error: {i_LicenseNumber} is not in the garage");
-            }
-
-            return currentVehicle.Status;
-        }
-
-        public int GetNumberOfWheels(string i_LicenseNumber)
-        {
-            return r_GarageVehicles[i_LicenseNumber].NumberOfWheels;
-        }
-
-        public const string k_NotIntError = "Error: non Integer number entered!";
-
         public bool CheckIfVehicleExists(string i_Input)
         {
-            int parsedInt;
-  
-            if (!int.TryParse(i_Input, out parsedInt))
+            if (!int.TryParse(i_Input, out int parsedInt))
             {
                 throw new FormatException(k_NotIntError);
             }

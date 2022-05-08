@@ -28,7 +28,7 @@ namespace Ex03.GarageLogic
                     newVehicle.SetMaxAirPressure(31f);
                     break;
                 case eVehicleType.Lorry:
-                    newVehicle = new Ex03.GarageLogic.Vehicles.Lorry(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
+                    newVehicle = new Vehicles.Lorry(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(24f);
                     newVehicle.Engine = CreateEngine(VehicleParts.Engine.eEngineType.Fuel, eVehicleType.Lorry);
                     break;

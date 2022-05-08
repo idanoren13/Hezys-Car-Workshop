@@ -53,9 +53,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Todi.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="UI.cd" />
     <None Include="UIFlowChart.cd" />
   </ItemGroup>

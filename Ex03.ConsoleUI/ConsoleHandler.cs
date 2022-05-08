@@ -12,11 +12,6 @@ namespace Ex03.ConsoleUI
     {
         public const string k_NegativeInput = "Error: negative number!";
 
-        public static void InvalidInputMessage()
-        {
-            Console.WriteLine("Invalid Input, enter again");
-        }
-
         public static void OperationSuccededMessage()
         {
             Console.WriteLine("Operation Succeded!");
