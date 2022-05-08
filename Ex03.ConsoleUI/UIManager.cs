@@ -8,10 +8,11 @@ namespace Ex03.ConsoleUI
 {
     public class UIManager
     {
+        private const int r_MaxParams = 2;
         private readonly Garage m_Garage;
         private Vehicle m_NewVehicle;
         private bool m_IsGarageOpen;
-        const int r_MaxParams = 2;
+
         public UIManager()
         {
             m_Garage = new Garage();
@@ -20,8 +21,8 @@ namespace Ex03.ConsoleUI
         public void OpenGarage()
         {
             bool hasExceptionOccured = false;
-
             Garage.eGarageOptions garageOptions;
+
             m_IsGarageOpen = true;
             while (m_IsGarageOpen)
             {
@@ -29,7 +30,7 @@ namespace Ex03.ConsoleUI
                 {
                     Console.Clear();
                     ConsoleHandler.PrintMainMenu();
-                    garageOptions = (Garage.eGarageOptions)ConsoleHandler.readEnumFromConsole(typeof(Garage.eGarageOptions));
+                    garageOptions = (Garage.eGarageOptions)ConsoleHandler.ReadEnumFromConsole(typeof(Garage.eGarageOptions));
                     garageInterfaceManager(garageOptions);
                 }
                 catch (FormatException fe)
@@ -61,7 +62,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void garageInterfaceManager(Garage.eGarageOptions i_GetCurrentOptions)
+        private void garageInterfaceManager(Garage.eGarageOptions i_GetCurrentOptions)
         {
             Console.Clear();
             switch (i_GetCurrentOptions)
@@ -75,7 +76,7 @@ namespace Ex03.ConsoleUI
                 case Garage.eGarageOptions.FillTirePressure:
                     addTyrePressureFromInput();
                     break;
-                case Garage.eGarageOptions.fillGas:
+                case Garage.eGarageOptions.FillGas:
                     fillGas();
                     break;
                 case Garage.eGarageOptions.ChangeVehicleState:
@@ -87,7 +88,7 @@ namespace Ex03.ConsoleUI
                 case Garage.eGarageOptions.ExtendedInformationOfSelectedVehicle:
                     printSpacificCarInfo();
                     break;
-                case Garage.eGarageOptions.CloseTheBasta:
+                case Garage.eGarageOptions.EndService:
                     m_IsGarageOpen = false;
                     break;
                 default:
@@ -107,9 +108,9 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("select status:");
                 ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
                 m_Garage.GetVehicle(licenseNumber).Status = 
-                    (Vehicle.eVehicleStatus)ConsoleHandler.readIntFromConsole(
+                    (Vehicle.eVehicleStatus)ConsoleHandler.ReadIntFromConsole(
                         0,
-                        Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length-  1);
+                        Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length - 1);
                 ConsoleHandler.OperationSuccededMessage();
             }
             else
@@ -126,12 +127,13 @@ namespace Ex03.ConsoleUI
                 string model, licenseNumber, ownersName, ownersNumber;
 
                 ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
-                vehicleType = (VehicleFactory.eVehicleType)ConsoleHandler.readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
+                vehicleType = (VehicleFactory.eVehicleType)ConsoleHandler.ReadEnumFromConsole(typeof(VehicleFactory.eVehicleType));
                 ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
                 if (m_Garage.CheckIfVehicleExists(licenseNumber))
                 {
                     throw new KeysCollisionException($"Error: {licenseNumber} Already exist! ");
                 }
+
                 m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
                 if (m_NewVehicle.Engine == null)
                 {
@@ -156,22 +158,36 @@ namespace Ex03.ConsoleUI
         {
             int choosenStatus, userInput;
             Dictionary<string, Vehicle>.KeyCollection PlatesList;
+            string plates;
 
             Console.WriteLine("select dispaly option:");
             userInput = ConsoleHandler.Choose1Or0("plates filtered by our service current status option", "show all plates option");
             if (userInput == 0)
             {
                 PlatesList = m_Garage.GetPlatesList();
-                Console.WriteLine(m_Garage.PlatesToString(PlatesList));
+                plates = m_Garage.PlatesToString(PlatesList);
+                if (plates == null)
+                {
+                    plates = "~empty list of plates~";
+                }
+
+                Console.WriteLine(plates);
             }
             else
             {
                 Console.WriteLine("choose status to filter the list with");
                 ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
-                choosenStatus = ConsoleHandler.readIntFromConsole(0, Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length);
+                choosenStatus = ConsoleHandler.ReadIntFromConsole(0, Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length);
                 PlatesList = m_Garage.GetSortedListFilterdByStatus((Vehicle.eVehicleStatus)choosenStatus);
-                Console.WriteLine(m_Garage.PlatesToString(PlatesList));
+                plates = m_Garage.PlatesToString(PlatesList);
+                if (plates == null)
+                {
+                    plates = "~empty list of plates~";
+                }
+
+                Console.WriteLine(plates);
             }
+        
             ConsoleHandler.DisplayReturnMenuMessage();
         }
 
@@ -191,7 +207,7 @@ namespace Ex03.ConsoleUI
                 m_Garage.CheckIfEngineIsCombustion(licenseNumber);
                 Console.WriteLine("Please select fuel type:");
                 ConsoleHandler.PrintEnum<CombustionEngine.eFuelType>();
-                fuelType = (CombustionEngine.eFuelType)ConsoleHandler.readEnumFromConsole(typeof(CombustionEngine.eFuelType));
+                fuelType = (CombustionEngine.eFuelType)ConsoleHandler.ReadEnumFromConsole(typeof(CombustionEngine.eFuelType));
                 Console.WriteLine(m_Garage.GetVehicle(licenseNumber).Engine.ToString());
                 Console.WriteLine("Please select the amount of fuel to add in percenge <0 - 100>%");
                 amountToFill = Console.ReadLine();
@@ -243,13 +259,13 @@ namespace Ex03.ConsoleUI
             Engine.eEngineType engineType;
 
             ConsoleHandler.PrintEnum<Engine.eEngineType>();
-            engineType = (Engine.eEngineType)ConsoleHandler.readEnumFromConsole(typeof(Engine.eEngineType));
+            engineType = (Engine.eEngineType)ConsoleHandler.ReadEnumFromConsole(typeof(Engine.eEngineType));
             m_NewVehicle.Engine = m_Garage.Factory.CreateEngine(engineType, m_NewVehicle.VehicleType);
         }
 
         private void setNewVehicleWheels()
         {
-            int userChoice = -1;
+            int userChoice;
             Wheel tempWheel;
 
             userChoice = ConsoleHandler.Choose1Or0("all tyres at once", "each tyre individual");
@@ -290,10 +306,11 @@ namespace Ex03.ConsoleUI
             {
                 fillTyresAirPressureFromInput(licenseNumber);
             }
-            else 
+            else
             {
                 m_Garage.FillTyresMaxAirPressure(licenseNumber);
             }
+
             ConsoleHandler.OperationSuccededMessage();
             ConsoleHandler.DisplayReturnMenuMessage();
         }
@@ -315,11 +332,10 @@ namespace Ex03.ConsoleUI
                 addedAirPressure = Console.ReadLine();
                 m_Garage.CheckPressureInputAndAdd(addedAirPressure, i_Wheel);
             }
-            catch (ValueOutOfRangeException e)
+            catch (ValueOutOfRangeException voore)
             {
-
                 Console.WriteLine("can not add pressure over the max pressure!");
-                Console.WriteLine($"{e.ToString()}");
+                Console.WriteLine(voore.ToString());
             }
 
             ++i_CurrentIndex;
@@ -359,7 +375,7 @@ namespace Ex03.ConsoleUI
                 if (method.GetParameters()[0].ParameterType.IsEnum)
                 {
                     ConsoleHandler.EnumsConsoleMessage(method.GetParameters()[0].ParameterType);
-                    getParameterForMethod[0] = ConsoleHandler.readEnumFromConsole(method.GetParameters()[0].ParameterType);
+                    getParameterForMethod[0] = ConsoleHandler.ReadEnumFromConsole(method.GetParameters()[0].ParameterType);
                     method.Invoke(m_NewVehicle, getParameterForMethod);
                 }
                 else
@@ -384,27 +400,27 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private object dynamicTryParse(MethodInfo method)
+        private object dynamicTryParse(MethodInfo i_Method)
         {
             Type typeToBeParsed;
             MethodInfo dynamicTryPrase;
             object[] dynamicTryPraseParameters = new object[r_MaxParams];
             Type[] tryParseSignature;
-            object isParsed = false;
+            object isParsed;
 
             dynamicTryPraseParameters[1] = null;
-            typeToBeParsed = method.GetParameters()[0].ParameterType;
+            typeToBeParsed = i_Method.GetParameters()[0].ParameterType;
             tryParseSignature = new Type[] 
             {
                 typeof(string), typeToBeParsed.MakeByRefType()
             };
 
-            dynamicTryPrase = method.GetParameters()[0].ParameterType.GetMethod("TryParse", tryParseSignature);
+            dynamicTryPrase = i_Method.GetParameters()[0].ParameterType.GetMethod("TryParse", tryParseSignature);
             if (dynamicTryPrase == null)
             {
                 throw new ArgumentNullException(string.Format(
                     "Error: No TryParse Method is found in {0}",
-                    method.GetParameters()[0].ParameterType));
+                    i_Method.GetParameters()[0].ParameterType));
             }
 
             dynamicTryPraseParameters[0] = Console.ReadLine();

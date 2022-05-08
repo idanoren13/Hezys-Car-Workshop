@@ -10,11 +10,11 @@ namespace Ex03.GarageLogic
     {
         public enum eGarageOptions
         {
-            CloseTheBasta,
+            EndService,
             InsertVehicle,
             DisplayListOfLicensedVehicle,
             FillTirePressure,
-            fillGas,
+            FillGas,
             ChangeVehicleState,
             ChargeElectricVehicle,
             ExtendedInformationOfSelectedVehicle,
@@ -22,10 +22,6 @@ namespace Ex03.GarageLogic
 
         private readonly Dictionary<string, Vehicle> r_GarageVehicles;
         private readonly VehicleFactory r_Factory;
-        const int k_NumberOfAvailableMethodsInGarage = 0;
-        const string k_ParsingToIntErrorFlag = "0";
-        const float k_MaxPercentage = 100;
-        const float k_MinPercentage = 0;
 
         public Garage()
         {
@@ -45,11 +41,11 @@ namespace Ex03.GarageLogic
 
         public Vehicle GetVehicle(string i_LicenseNumber)
         {
-
-            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle copiedVehicle))
+            if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle))
             {
                 throw new KeyNotFoundException($"Error:Could Not find {i_LicenseNumber} Vehicle");
             }
+
             return r_GarageVehicles[i_LicenseNumber];
         }
 
@@ -61,18 +57,19 @@ namespace Ex03.GarageLogic
         public string PlatesToString(Dictionary<string, Vehicle>.KeyCollection i_Plates)
         {
             StringBuilder plates = new StringBuilder();
+            string outString = null;
 
             foreach (string plate in i_Plates)
             {
                 plates.Append($"{plate}{Environment.NewLine}");
             }
-            if (i_Plates.Count == 0)
+
+            if (i_Plates.Count > 0)
             {
-                plates.Clear();
-                plates.Append("~empty list of plates~");
+                outString = plates.ToString();
             }
 
-            return plates.ToString();
+            return outString;
         }
 
         public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
@@ -81,6 +78,7 @@ namespace Ex03.GarageLogic
             {
                 throw new KeyNotFoundException($"Error: the garage is empty!");
             }
+
             return r_GarageVehicles.Keys;
         }
 
@@ -189,6 +187,5 @@ namespace Ex03.GarageLogic
 
             return r_GarageVehicles.ContainsKey(i_Input);
         }
-
     }
 }

@@ -36,11 +36,6 @@ namespace Ex03.GarageLogic.VehicleParts
             }
         }
 
-        //void SuperCharge(float i_AddEnergy)
-        //{
-        //    AddEnergy(i_AddEnergy);
-        //}
-
         public void SetCurrentBatteryByPercentage(float i_Percentage)
         {
             SetCurrentEnergyByPercentage(i_Percentage);
@@ -56,5 +51,4 @@ namespace Ex03.GarageLogic.VehicleParts
             return ElectricEngineToString.ToString();
         }
     }
-
 }

@@ -31,7 +31,6 @@ namespace Ex03.GarageLogic.VehicleParts
 
         public void AddAir(int i_AddedPressure)
         {
-
             if (m_CurrentAirPressure + i_AddedPressure > m_MaxAirPressure ||
                 m_CurrentAirPressure + i_AddedPressure < 0)
             {
@@ -59,10 +58,5 @@ namespace Ex03.GarageLogic.VehicleParts
 
             return WheelToString.ToString();
         }
-
-    }
-
-    public class Class1
-    {
     }
 }

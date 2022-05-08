@@ -15,9 +15,9 @@ namespace Ex03.GarageLogic
             Done
         }
 
+        protected readonly int r_NumberOfWheels; 
         protected Engine m_Engine;
         protected Wheel[] m_Wheels;
-        protected readonly int r_NumberOfWheels; 
         protected eVehicleStatus m_Status;
         private readonly string r_ModelName;
         private readonly string r_LicenseNumber;

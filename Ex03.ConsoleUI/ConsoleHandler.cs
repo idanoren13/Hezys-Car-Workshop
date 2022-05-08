@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using System.Threading;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehicleParts;
-using System.Threading;
 
 namespace Ex03.ConsoleUI
 {
@@ -75,14 +75,12 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        public static void GetBasicInfoFromConsole
-            (
+        public static void GetBasicInfoFromConsole(
             VehicleFactory.eVehicleType i_VehicleType, 
             out string o_Model,
             out string o_LicenseNumber, 
             out string o_OwnersName, 
-            out string o_OwnersNumber
-            )
+            out string o_OwnersNumber)
         {
             o_LicenseNumber = null;
             o_OwnersNumber = null;
@@ -104,7 +102,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static void getAndCheckLicenseNumberInput(ref string io_Input)
+        private static void getAndCheckLicenseNumberInput(ref string io_Input)
         {
             Console.WriteLine(string.Format("Please enter your license number: "));
             io_Input = Console.ReadLine();
@@ -183,7 +181,7 @@ namespace Ex03.ConsoleUI
             return userChoice;
         }
 
-        public static int readEnumFromConsole(Type i_EnumType)
+        public static int ReadEnumFromConsole(Type i_EnumType)
         {
             int parseEnum = int.MaxValue;
             int maxEnumValue = Enum.GetValues(i_EnumType).Length - 1;
@@ -217,7 +215,7 @@ namespace Ex03.ConsoleUI
             return parseEnum;
         }
 
-        public static int readIntFromConsole(int i_MinValue, int i_MaxValue)
+        public static int ReadIntFromConsole(int i_MinValue, int i_MaxValue)
         {
             int parseInt = default;
             bool exceptionFlag = false;

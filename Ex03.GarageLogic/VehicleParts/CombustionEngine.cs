@@ -57,11 +57,6 @@ namespace Ex03.GarageLogic.VehicleParts
             SetCurrentEnergyByPercentage(i_Percentage);
         }
 
-        //public void AddFuel(float i_AddVolume)
-        //{
-        //    AddEnergy(i_AddVolume);
-        //}
-
         public override string ToString()
         {
             StringBuilder ElectricEngineToString = new StringBuilder();

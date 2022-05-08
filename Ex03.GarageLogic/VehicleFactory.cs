@@ -87,7 +87,7 @@ namespace Ex03.GarageLogic
 
         private float setEnergyCapacity(VehicleParts.Engine.eEngineType i_EngineType, eVehicleType i_VehicleType)
         {
-            float capacity ;
+            float capacity;
 
             if (i_EngineType != VehicleParts.Engine.eEngineType.Electricty)
             {
