@@ -14,9 +14,9 @@ namespace Ex03.GarageLogic
             InsertVehicle,
             DisplayListOfLicensedVehicle,
             FillTirePressure,
-            FillGasMotor,
+            fillGas,
             ChangeVehicleState,
-            FillElectricMotor,
+            ChargeElectricVehicle,
             ExtendedInformationOfSelectedVehicle,
         }
 
@@ -86,6 +86,36 @@ namespace Ex03.GarageLogic
             else
             {
                 throw new KeyNotFoundException($"Error:Could Not find {i_LicenseNumber} Vehicle");
+            }
+        }
+
+        public void AddFuel(string i_LicenseNumber, VehicleParts.CombustionEngine.eFuelType i_FuelType, float i_AmountToFill)
+        {
+            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            ((VehicleParts.CombustionEngine)currentVehicle.Engine).AddFuel(i_AmountToFill, i_FuelType);
+        }
+
+        public void CheckIfEngineIsCombustion(string i_LicenseNumber)
+        {
+            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            if (!(currentVehicle.Engine is VehicleParts.CombustionEngine))
+            {
+                throw new FormatException("cant fill gas on electric engine!");
+            }
+        }
+
+        public void Charge(string i_LicenseNumber, float i_EnergyToAdd)
+        {
+            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            ((VehicleParts.ElectricEngine)currentVehicle.Engine).SuperCharge(i_EnergyToAdd);
+        }
+
+        public void CheckIfEngineIsElectric(string i_LicenseNumber)
+        {
+            r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+            if (!(currentVehicle.Engine is VehicleParts.ElectricEngine))
+            {
+                throw new FormatException("cant charge fuel engine!");
             }
         }
 

@@ -4,10 +4,25 @@ Snoop Dog
 RR
 666999666
 1
-1
+80
 1
 JojoArmani
 27
 2
 2
+
+1
+Snoop DogM
+066666666
+RR
+123
+1
+70
+1
+JojoArmani
+27
+2
+2
+
+
 666999666

@@ -11,8 +11,8 @@ namespace Ex03.GarageLogic.VehicleParts
 
         public float BatteryTimeLeft
         {
-            get => m_CurrentEnergyCapacity;
-            set => m_CurrentEnergyCapacity = value;
+            get => m_CurrentEnergy;
+            set => m_CurrentEnergy = value;
         }
 
         public float MaxBatteryCapacity
@@ -21,10 +21,25 @@ namespace Ex03.GarageLogic.VehicleParts
             set => m_MaxEnergyCapacity = value;
         }
 
-        void SuperCharge(float i_AddEnergy)
+        public void SuperCharge(float i_EnergyToAdd)
         {
-            AddEnergy(i_AddEnergy);
+            float percentegeAmountToAdd = (i_EnergyToAdd / 100) * m_MaxEnergyCapacity;
+
+            if (m_CurrentEnergy + percentegeAmountToAdd > m_MaxEnergyCapacity ||
+               i_EnergyToAdd < 0)
+            {
+                throw new ValueOutOfRangeException(m_MaxEnergyCapacity, 0);
+            }
+            else
+            {
+                BatteryTimeLeft = m_CurrentEnergy + percentegeAmountToAdd;
+            }
         }
+
+        //void SuperCharge(float i_AddEnergy)
+        //{
+        //    AddEnergy(i_AddEnergy);
+        //}
 
         public void SetCurrentBatteryByPercentage(float i_Percentage)
         {
@@ -35,7 +50,7 @@ namespace Ex03.GarageLogic.VehicleParts
         {
             StringBuilder ElectricEngineToString = new StringBuilder();
 
-            ElectricEngineToString.Append($"Battery time in hours Left: {this.m_CurrentEnergyCapacity} ");
+            ElectricEngineToString.Append($"Battery time in hours Left: {this.m_CurrentEnergy} ");
             ElectricEngineToString.Append($"{Environment.NewLine}Max battery capacity: {this.m_MaxEnergyCapacity} ");
 
             return ElectricEngineToString.ToString();

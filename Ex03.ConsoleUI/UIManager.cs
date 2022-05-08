@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehicleParts;
 
@@ -28,54 +26,61 @@ namespace Ex03.ConsoleUI
             {
                 try
                 {
-                    System.Console.Clear();
+                    Console.Clear();
                     ConsoleHandler.PrintMainMenu();
                     garageOptions = (Garage.eGarageOptions)ConsoleHandler.readEnumFromConsole(typeof(Garage.eGarageOptions));
                     garageInterfaceManager(garageOptions);
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.Message);
+                    Console.WriteLine(fe.ToString());
                     hasExceptionOccured = true;
                 }
                 catch (KeyNotFoundException knfe)
                 {
-                    Console.WriteLine(knfe.Message);
+                    Console.WriteLine(knfe.ToString());
+                    hasExceptionOccured = true;
+                }
+                catch (ValueOutOfRangeException e)
+                {
+                    Console.WriteLine(e.ToString());
                     hasExceptionOccured = true;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.ToString()); 
                     hasExceptionOccured = true;
                 }
 
                 if (hasExceptionOccured)
                 {
                     hasExceptionOccured = false;
-                    ConsoleHandler.HaltScreenUntilUserInput();
+                    ConsoleHandler.DisplayReturnMenuMessage();
                 }
             }
         }
 
         public void garageInterfaceManager(Garage.eGarageOptions i_GetCurrentOptions)
         {
-            System.Console.Clear();
+            Console.Clear();
             switch (i_GetCurrentOptions)
             {
                 case Garage.eGarageOptions.InsertVehicle:
                     InsertNewVehicle();
                     break;
                 case Garage.eGarageOptions.DisplayListOfLicensedVehicle:
-                    DisplayListOfLicensedVehicles();
+                    displayListOfLicensedVehicles();
                     break;
                 case Garage.eGarageOptions.FillTirePressure:
                     addTyrePressureFromInput();
                     break;
-                case Garage.eGarageOptions.FillGasMotor: // TODO
+                case Garage.eGarageOptions.fillGas:
+                    fillGas();
                     break;
                 case Garage.eGarageOptions.ChangeVehicleState: // TODO
                     break;
-                case Garage.eGarageOptions.FillElectricMotor: // TODO
+                case Garage.eGarageOptions.ChargeElectricVehicle:
+                    ChargeElectricVehicle();
                     break;
                 case Garage.eGarageOptions.ExtendedInformationOfSelectedVehicle:
                     printSpacificCarInfo();
@@ -88,7 +93,53 @@ namespace Ex03.ConsoleUI
             } 
         }
 
-        private void DisplayListOfLicensedVehicles()
+        private void fillGas()
+        {
+            string licenseNumber, amountToFill;
+            CombustionEngine.eFuelType fuelType;
+
+            Console.WriteLine("Please enter the license number.");
+            licenseNumber = Console.ReadLine();
+            if (!m_Garage.CheckIfVehicleExists(licenseNumber))
+            {
+                throw new KeyNotFoundException($"Vehicle with license number: {licenseNumber} is not in the garage");
+            }
+            else
+            {
+                m_Garage.CheckIfEngineIsCombustion(licenseNumber);
+                Console.WriteLine("Please select fuel type:");
+                ConsoleHandler.PrintEnum<CombustionEngine.eFuelType>();
+                fuelType = (CombustionEngine.eFuelType)ConsoleHandler.readEnumFromConsole(typeof(CombustionEngine.eFuelType));
+                //TODO to string to engine
+                Console.WriteLine("Please select the amount of fuel to add in percenge <0 - 100>%");
+                amountToFill = Console.ReadLine();
+                m_Garage.AddFuel(licenseNumber, fuelType, float.Parse(amountToFill));
+                ConsoleHandler.OperationSuccededMessage();
+            }
+        }
+
+        private void ChargeElectricVehicle()
+        {
+            string licenseNumber, energyToAdd;
+
+            Console.WriteLine("Please enter the license number.");
+            licenseNumber = Console.ReadLine();
+            if (!m_Garage.CheckIfVehicleExists(licenseNumber))
+            {
+                throw new KeyNotFoundException($"Vehicle with license number: {licenseNumber} is not in the garage");
+            }
+            else
+            {
+                m_Garage.CheckIfEngineIsElectric(licenseNumber);
+                //TODO to string to engine
+                Console.WriteLine("Please select the amount of energy to charge percenge <0 - 100>%");
+                energyToAdd = Console.ReadLine();
+                m_Garage.Charge(licenseNumber, float.Parse(energyToAdd));
+                ConsoleHandler.OperationSuccededMessage();
+            }
+        }
+
+        private void displayListOfLicensedVehicles()
         {
             int displayListByStatus;
             
@@ -101,6 +152,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(m_Garage.GetPlatesList().ToString());
             }
+            ConsoleHandler.DisplayReturnMenuMessage();
         }
 
         public void InsertNewVehicle()
@@ -127,12 +179,13 @@ namespace Ex03.ConsoleUI
                 setNewVehicleWheels();
                 initUniqueVehicleProperties();
                 m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
+                ConsoleHandler.OperationSuccededMessage();
             }
             catch (DuplicateKeysException dke)
             {
                 Console.WriteLine(dke.ToString());
                 m_Garage.GetVehicle(m_NewVehicle.LicenseNumber).Status = Vehicle.eVehicleStatus.InProcess;
-                ConsoleHandler.HaltScreenUntilUserInput();
+                ConsoleHandler.DisplayReturnMenuMessage();
             }
         }
 
@@ -143,7 +196,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine($"Please enter the license number you wish .");
             vehicleToDisplay = m_Garage.GetVehicle(Console.ReadLine());
             displayAllVehicleInfo(vehicleToDisplay);
-            ConsoleHandler.HaltScreenUntilUserInput();
+            ConsoleHandler.DisplayReturnMenuMessage();
         }
 
         private void displayAllVehicleInfo(Vehicle i_VehicleToDisplay)
@@ -199,17 +252,18 @@ namespace Ex03.ConsoleUI
             {
                 throw new KeyNotFoundException($"Vehicle with license number: {licenseNumber} is not in the garage");
             } 
-            userChoice = ConsoleHandler.Choose1Or0("all tyres at once", "each tyre individual");
+
+            userChoice = ConsoleHandler.Choose1Or0("All tyres at once", "Each tyre individual");
             if (userChoice == 0)
             {
-                FillTyresAirPressureFromInput(licenseNumber);
+                fillTyresAirPressureFromInput(licenseNumber);
             }
             else 
             {
                 m_Garage.FillTyresMaxAirPressure(licenseNumber);
-                Console.WriteLine($"success fillilng pressure.");
-                ConsoleHandler.HaltScreenUntilUserInput();
             }
+            ConsoleHandler.OperationSuccededMessage();
+            ConsoleHandler.DisplayReturnMenuMessage();
         }
 
         public int SetPressureFromInput(string i_LicenseNumber, ref int i_CurrentIndex, Wheel i_Wheel)
@@ -229,10 +283,11 @@ namespace Ex03.ConsoleUI
                 addedAirPressure = Console.ReadLine();
                 m_Garage.CheckPressureInputAndAdd(addedAirPressure, i_Wheel);
             }
-            catch (ValueOutOfRangeException vore)
+            catch (ValueOutOfRangeException e)
             {
-                Console.WriteLine($"Error:{vore.Message} Please try again:");
-                ConsoleHandler.HaltScreenUntilUserInput();
+
+                Console.WriteLine("can not add pressure over the max pressure!");
+                Console.WriteLine($"{e.ToString()}");
             }
 
             ++i_CurrentIndex;
@@ -240,7 +295,7 @@ namespace Ex03.ConsoleUI
             return i_CurrentIndex;
         }
 
-        public void FillTyresAirPressureFromInput(string i_LicenseNumber)
+        private void fillTyresAirPressureFromInput(string i_LicenseNumber)
         {
             int i = 0;
             Vehicle currentVehicle = m_Garage.GetVehicle(i_LicenseNumber);
@@ -279,7 +334,7 @@ namespace Ex03.ConsoleUI
                 {
                     Console.WriteLine(
                         string.Format(
-                            "please enter {0} as {1}:",
+                            "Please enter {0} as {1}:",
                             ConsoleHandler.PrintCamelCase(method.Name.Remove(0, 4)),
                             method.GetParameters()[0].ParameterType.Name));
                     try

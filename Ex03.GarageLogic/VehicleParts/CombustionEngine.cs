@@ -21,8 +21,8 @@ namespace Ex03.GarageLogic.VehicleParts
 
         public float CurrentFuelAmount
         {
-            get => m_CurrentEnergyCapacity;
-            set => m_CurrentEnergyCapacity = value;
+            get => m_CurrentEnergy;
+            set => m_CurrentEnergy = value;
         }
 
         public float MaxTankCapacity
@@ -37,15 +37,30 @@ namespace Ex03.GarageLogic.VehicleParts
             set => m_FuelType = value;
         }
 
+        public void AddFuel(float i_AmountOfFuelToAdd, eFuelType i_FuelType)
+        {
+            float percentegeAmountToAdd = (i_AmountOfFuelToAdd / 100) * m_MaxEnergyCapacity;
+
+            if (m_CurrentEnergy + percentegeAmountToAdd > m_MaxEnergyCapacity ||
+               i_AmountOfFuelToAdd < 0)
+            {
+                throw new ValueOutOfRangeException(m_MaxEnergyCapacity, 0);
+            }
+            else
+            {
+                CurrentFuelAmount = m_CurrentEnergy + percentegeAmountToAdd;
+            }
+        }
+
         public void SetCurrentFuelAmountByPercentage(float i_Percentage)
         {
             SetCurrentEnergyByPercentage(i_Percentage);
         }
 
-        public void AddFuel(float i_AddVolume)
-        {
-            AddEnergy(i_AddVolume);
-        }
+        //public void AddFuel(float i_AddVolume)
+        //{
+        //    AddEnergy(i_AddVolume);
+        //}
 
         public override string ToString()
         {

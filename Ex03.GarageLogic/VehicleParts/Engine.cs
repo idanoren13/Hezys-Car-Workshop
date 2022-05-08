@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic.VehicleParts
             Fuel,
         }
 
-        protected float m_CurrentEnergyCapacity;
+        protected float m_CurrentEnergy;
         protected float m_MaxEnergyCapacity;
         private readonly eEngineType r_EngineType;
 
@@ -29,25 +29,25 @@ namespace Ex03.GarageLogic.VehicleParts
 
         public float GetEnergyPercentage()
         {
-            return m_CurrentEnergyCapacity / m_MaxEnergyCapacity * 100;
+            return m_CurrentEnergy / m_MaxEnergyCapacity * 100;
         }
 
         public void SetCurrentEnergyByPercentage(float i_Percentage)
         {
-            m_CurrentEnergyCapacity = (i_Percentage / 100) * m_MaxEnergyCapacity;
+            m_CurrentEnergy = (i_Percentage / 100) * m_MaxEnergyCapacity;
         }
 
-        protected void AddEnergy(float i_AddedVolume)
+        protected void AddEnergy(float i_AddedEnergy)
         {
-            if (m_CurrentEnergyCapacity + i_AddedVolume > m_MaxEnergyCapacity ||
-                m_CurrentEnergyCapacity + i_AddedVolume < 0)
+            if (m_CurrentEnergy + i_AddedEnergy > m_MaxEnergyCapacity ||
+                m_CurrentEnergy + i_AddedEnergy < 0)
             {
                 throw new ValueOutOfRangeException(m_MaxEnergyCapacity, 0);
             }
             else
             {
-                m_CurrentEnergyCapacity += i_AddedVolume;
-                m_CurrentEnergyCapacity = m_MaxEnergyCapacity;
+                m_CurrentEnergy += i_AddedEnergy;
+                m_CurrentEnergy = m_MaxEnergyCapacity;
             }
         }
     }

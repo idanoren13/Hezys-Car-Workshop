@@ -4,16 +4,23 @@ using System.Text;
 using System.Reflection;
 using Ex03.GarageLogic;
 using Ex03.GarageLogic.VehicleParts;
-
-
+using System.Threading;
 
 namespace Ex03.ConsoleUI
 {
     public static class ConsoleHandler
     {
+        public const string k_NegativeInput = "Error: negative phone number!";
+
         public static void InvalidInputMessage()
         {
             Console.WriteLine("Invalid Input, enter again");
+        }
+
+        public static void OperationSuccededMessage()
+        {
+            Console.WriteLine("Operation Succeded!");
+            Thread.Sleep(700);
         }
 
         public static void EnumsConsoleMessage(Type i_MatchingTypeEnum)
@@ -68,12 +75,14 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        public static void GetBasicInfoFromConsole(
+        public static void GetBasicInfoFromConsole
+            (
             VehicleFactory.eVehicleType i_VehicleType, 
             out string o_Model,
             out string o_LicenseNumber, 
             out string o_OwnersName, 
-            out string o_OwnersNumber)
+            out string o_OwnersNumber
+            )
         {
             o_LicenseNumber = null;
             o_OwnersNumber = null;
@@ -89,7 +98,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine(string.Format("Please enter your phone number: "));
             io_Input = Console.ReadLine();
-            while (!checkValidNumberInString(io_Input, "Error: negative phone number!"))
+            while (!checkValidNumberInString(io_Input, k_NegativeInput))
             {
                 io_Input = Console.ReadLine();
             }
@@ -99,7 +108,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine(string.Format("Please enter your license number: "));
             io_Input = Console.ReadLine();
-            while (!checkValidNumberInString(io_Input, "Error: negative license number!"))
+            while (!checkValidNumberInString(io_Input, k_NegativeInput))
             {
                 io_Input = Console.ReadLine();
             }
@@ -111,9 +120,9 @@ namespace Ex03.ConsoleUI
             if (!long.TryParse(i_Input, out long parsedInteger))
             {
                 isValid = false;
-                Console.WriteLine($"{i_Input} is not an interger");
+                Console.WriteLine("Error: failed parse to a natural number");
             }
-            else if (parsedInteger <= 0)
+            else if (parsedInteger < 0)
             {
                 isValid = false;
                 Console.WriteLine(i_NegativeMessege);
@@ -126,7 +135,7 @@ namespace Ex03.ConsoleUI
         {
             float energyPercentage;
 
-            Console.WriteLine(string.Format("Please enter your {0} percentage", i_EngineType == Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
+            Console.WriteLine(string.Format("Please enter your current {0} percentage <0 - 100> ", i_EngineType == Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
             while (!float.TryParse(Console.ReadLine(), out energyPercentage) || (energyPercentage > 100 || energyPercentage < 0))
             {
                 Console.WriteLine("Invalid input please enter a value between 0 to 100"); 
@@ -165,7 +174,7 @@ namespace Ex03.ConsoleUI
         public static int Choose1Or0(string i_Messege1, string i_Messege0)
         {
             int userChoice;
-            Console.WriteLine("Press 1 to set {0}{1}Press 0 to set {2}", i_Messege1, Environment.NewLine, i_Messege0);
+            Console.WriteLine("Press 0 to set {2}{1}Press 1 to set {0}", i_Messege1, Environment.NewLine, i_Messege0);
             while (!int.TryParse(Console.ReadLine(), out userChoice) || (userChoice != 1 && userChoice != 0))
             {
                 Console.WriteLine("Invalid input press 1/0");
@@ -197,7 +206,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.Message);
+                    Console.WriteLine(fe.ToString());
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
@@ -230,7 +239,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.Message);
+                    Console.WriteLine(fe.ToString());
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
@@ -252,7 +261,7 @@ namespace Ex03.ConsoleUI
                 {
                     if (!float.TryParse(Console.ReadLine(), out parseFloat))
                     {
-                        throw new FormatException("Error: No Float was entered");
+                        throw new FormatException("Error: failed parsing to float.");
                     }
                     else if (parseFloat < i_MinValue || parseFloat > i_MaxValue)
                     {
@@ -263,7 +272,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.Message);
+                    Console.WriteLine(fe.ToString());
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
@@ -274,7 +283,7 @@ namespace Ex03.ConsoleUI
             return parseFloat;
         }
 
-        public static void HaltScreenUntilUserInput()
+        public static void DisplayReturnMenuMessage()
         {
             Console.WriteLine("Press any key to return the main menu");
             Console.ReadKey();
