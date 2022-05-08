@@ -43,6 +43,11 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine(knfe.Message);
                     hasExceptionOccured = true;
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    hasExceptionOccured = true;
+                }
 
                 if (hasExceptionOccured)
                 {
@@ -52,7 +57,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void garageInterfaceManager(Garage.eGarageOptions i_GetCurrentOptions) // todo more functionality
+        public void garageInterfaceManager(Garage.eGarageOptions i_GetCurrentOptions)
         {
             System.Console.Clear();
             switch (i_GetCurrentOptions)
@@ -66,11 +71,11 @@ namespace Ex03.ConsoleUI
                 case Garage.eGarageOptions.FillTirePressure:
                     addTyrePressureFromInput();
                     break;
-                case Garage.eGarageOptions.FillGasMotor:
+                case Garage.eGarageOptions.FillGasMotor: // TODO
                     break;
-                case Garage.eGarageOptions.ChangeVehicleState:
+                case Garage.eGarageOptions.ChangeVehicleState: // TODO
                     break;
-                case Garage.eGarageOptions.FillElectricMotor:
+                case Garage.eGarageOptions.FillElectricMotor: // TODO
                     break;
                 case Garage.eGarageOptions.ExtendedInformationOfSelectedVehicle:
                     printSpacificCarInfo();
