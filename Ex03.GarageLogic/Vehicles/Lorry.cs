@@ -7,8 +7,8 @@ namespace Ex03.GarageLogic.Vehicles
 {
     public class Lorry : Vehicle
     {
+        private const float k_MaxCargoVolume = 9999999;
         private bool m_IsActiveTemprtureControl;
-
         private float m_CargoVolume;
 
         public Lorry(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber) : 
@@ -22,9 +22,16 @@ namespace Ex03.GarageLogic.Vehicles
         
         public float CargoVolume 
         {
-            get => m_CargoVolume; 
-            set => m_CargoVolume = value; 
-        }
+            get => m_CargoVolume;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ValueOutOfRangeException(k_MaxCargoVolume, 1);
+                }
+                m_CargoVolume = value;
+            }
+            }
 
         public override string ToString()
         {

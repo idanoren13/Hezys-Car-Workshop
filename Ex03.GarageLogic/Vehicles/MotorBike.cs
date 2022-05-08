@@ -26,7 +26,14 @@ namespace Ex03.GarageLogic.Vehicles
         public int EngineVolume 
         { 
             get => m_EngineVolume;
-            set => m_EngineVolume = value;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ValueOutOfRangeException(k_MaxEngineVolume, 1);
+                }
+                m_EngineVolume = value;
+            }
         }
 
         public eLicenseType LicenseType 

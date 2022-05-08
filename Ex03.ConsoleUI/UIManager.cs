@@ -102,7 +102,6 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine("Please enter license number:");
             licenseNumber = Console.ReadLine();
-            
             if (m_Garage.CheckIfVehicleExists(licenseNumber))
             {
                 Console.WriteLine("select status:");
@@ -369,6 +368,7 @@ namespace Ex03.ConsoleUI
         private void initUniqueVehicleProperties()
         {
             object[] getParameterForMethod = new object[1];
+            bool isValueOutOfRangeExceptionOccured = false;
 
             foreach (MethodInfo method in m_NewVehicle.UniqueMethods)
             {
@@ -385,18 +385,33 @@ namespace Ex03.ConsoleUI
                             "Please enter {0} as {1}:",
                             ConsoleHandler.PrintCamelCase(method.Name.Remove(0, 4)),
                             method.GetParameters()[0].ParameterType.Name));
-                    try
+                    do
                     {
-                        method.Invoke(m_NewVehicle, new[] { dynamicTryParse(method) });
-                    }
-                    catch (ArgumentNullException ane)
-                    {
-                        Console.WriteLine(ane);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
+                        try
+                        {
+                            getParameterForMethod[0] = dynamicTryParse(method);
+                            method.Invoke(m_NewVehicle, getParameterForMethod);
+                            isValueOutOfRangeExceptionOccured = false;
+                        } 
+                        catch (TargetInvocationException tie)
+                        {
+                            Console.WriteLine(tie.InnerException.ToString());
+                            isValueOutOfRangeExceptionOccured = true;
+                        }
+                        catch (ValueOutOfRangeException voore)
+                        {
+                            Console.WriteLine(voore.ToString());
+                            isValueOutOfRangeExceptionOccured = true;
+                        }
+                        catch (ArgumentNullException ane)
+                        {
+                            Console.WriteLine(ane.Message);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    } while (isValueOutOfRangeExceptionOccured);
                 }
             }
         }
