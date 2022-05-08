@@ -44,8 +44,10 @@ namespace Ex03.GarageLogic.VehicleParts
         public override string ToString()
         {
             StringBuilder ElectricEngineToString = new StringBuilder();
+            float fuelPercentage = GetEnergyPercentage();
 
-            ElectricEngineToString.Append($"Battery time in hours Left: {this.m_CurrentEnergy} ");
+            ElectricEngineToString.Append($"Battery time in hours Left: {this.m_CurrentEnergy}{Environment.NewLine}");
+            ElectricEngineToString.Append($"Battery left: {fuelPercentage}%");
             ElectricEngineToString.Append($"{Environment.NewLine}Max battery capacity: {this.m_MaxEnergyCapacity} ");
 
             return ElectricEngineToString.ToString();

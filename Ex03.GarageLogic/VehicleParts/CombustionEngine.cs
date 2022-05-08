@@ -41,14 +41,13 @@ namespace Ex03.GarageLogic.VehicleParts
         {
             float percentegeAmountToAdd = (i_AmountOfFuelToAdd / 100) * m_MaxEnergyCapacity;
 
-            if (m_CurrentEnergy + percentegeAmountToAdd > m_MaxEnergyCapacity ||
-               i_AmountOfFuelToAdd < 0)
+            if (m_CurrentEnergy + percentegeAmountToAdd > m_MaxEnergyCapacity || i_AmountOfFuelToAdd < 0)
             {
                 throw new ValueOutOfRangeException(m_MaxEnergyCapacity, 0);
             }
             else
             {
-                CurrentFuelAmount = m_CurrentEnergy + percentegeAmountToAdd;
+                m_CurrentEnergy += percentegeAmountToAdd;
             }
         }
 
@@ -63,7 +62,7 @@ namespace Ex03.GarageLogic.VehicleParts
             float fuelPercentage = GetEnergyPercentage();
 
             ElectricEngineToString.Append($"Fuel left: {fuelPercentage}% Tank.");
-            ElectricEngineToString.Append($"{Environment.NewLine}Full tank is: {this.m_MaxEnergyCapacity} litres."); // todo ?
+            ElectricEngineToString.Append($"{Environment.NewLine}Full tank is: {this.m_MaxEnergyCapacity} litres.");
 
             return ElectricEngineToString.ToString();
         }

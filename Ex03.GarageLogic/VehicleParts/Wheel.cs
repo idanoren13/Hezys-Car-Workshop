@@ -31,15 +31,13 @@ namespace Ex03.GarageLogic.VehicleParts
 
         public void AddAir(int i_AddedPressure)
         {
-            if (m_CurrentAirPressure + i_AddedPressure > m_MaxAirPressure ||
-                m_CurrentAirPressure + i_AddedPressure < 0)
+            if (m_CurrentAirPressure + i_AddedPressure > m_MaxAirPressure || i_AddedPressure < 0)
             {
                 throw new ValueOutOfRangeException(m_MaxAirPressure, 0);
             }
             else
             {
                 m_CurrentAirPressure += i_AddedPressure;
-                m_CurrentAirPressure = m_MaxAirPressure;
             }
         }
 

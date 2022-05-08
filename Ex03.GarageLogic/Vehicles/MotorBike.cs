@@ -16,6 +16,7 @@ namespace Ex03.GarageLogic.Vehicles
             BB
         }
 
+        private const int k_MaxEngineVolume = 10000;
         private int m_EngineVolume;
         private eLicenseType m_LicenseType;
 
@@ -24,8 +25,8 @@ namespace Ex03.GarageLogic.Vehicles
 
         public int EngineVolume 
         { 
-            get => m_EngineVolume; 
-            set => m_EngineVolume = value; 
+            get => m_EngineVolume;
+            set => m_EngineVolume = value;
         }
 
         public eLicenseType LicenseType 

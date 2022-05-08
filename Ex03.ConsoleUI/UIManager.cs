@@ -68,7 +68,7 @@ namespace Ex03.ConsoleUI
             switch (i_GetCurrentOptions)
             {
                 case Garage.eGarageOptions.InsertVehicle:
-                    InsertNewVehicle();
+                    insertNewVehicle();
                     break;
                 case Garage.eGarageOptions.DisplayListOfLicensedVehicle:
                     displayListOfLicensedVehicles();
@@ -119,7 +119,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public void InsertNewVehicle()
+        private void insertNewVehicle()
         {
             try
             {
@@ -366,7 +366,7 @@ namespace Ex03.ConsoleUI
             return newWheel;
         }
 
-        private void initUniqueVehicleProperties() 
+        private void initUniqueVehicleProperties()
         {
             object[] getParameterForMethod = new object[1];
 
@@ -393,8 +393,9 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine(ane);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
                     }
                 }
             }
@@ -410,7 +411,7 @@ namespace Ex03.ConsoleUI
 
             dynamicTryPraseParameters[1] = null;
             typeToBeParsed = i_Method.GetParameters()[0].ParameterType;
-            tryParseSignature = new Type[] 
+            tryParseSignature = new Type[]
             {
                 typeof(string), typeToBeParsed.MakeByRefType()
             };

@@ -10,7 +10,7 @@ namespace Ex03.ConsoleUI
 {
     public static class ConsoleHandler
     {
-        public const string k_NegativeInput = "Error: negative phone number!";
+        public const string k_NegativeInput = "Error: negative number!";
 
         public static void InvalidInputMessage()
         {
