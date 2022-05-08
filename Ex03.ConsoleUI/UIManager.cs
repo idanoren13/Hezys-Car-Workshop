@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Ex03.GarageLogic;
+using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.ConsoleUI
 {
@@ -149,23 +150,23 @@ namespace Ex03.ConsoleUI
 
         private void getEngineTypeInput()
         {
-            VehicleParts.Engine.eEngineType engineType;
+            Engine.eEngineType engineType;
 
-            ConsoleHandler.PrintEnum<VehicleParts.Engine.eEngineType>();
-            engineType = (VehicleParts.Engine.eEngineType)ConsoleHandler.readEnumFromConsole(typeof(VehicleParts.Engine.eEngineType));
+            ConsoleHandler.PrintEnum<Engine.eEngineType>();
+            engineType = (Engine.eEngineType)ConsoleHandler.readEnumFromConsole(typeof(Engine.eEngineType));
             m_NewVehicle.Engine = m_Garage.Factory.CreateEngine(engineType, m_NewVehicle.VehicleType);
         }
 
         private void setNewVehicleWheels()
         {
             int userChoice = -1;
-            VehicleParts.Wheel tempWheel;
+            Wheel tempWheel;
 
             userChoice = ConsoleHandler.Choose1Or0("all tyres at once", "each tyre individual");
             if (userChoice == 1)
             {
                 tempWheel = setSingleWheel(m_NewVehicle.Wheels[0].MaxAirPressure);
-                foreach (VehicleParts.Wheel wheel in m_NewVehicle.Wheels)
+                foreach (Wheel wheel in m_NewVehicle.Wheels)
                 {
                     wheel.CurrentAirPressure = tempWheel.CurrentAirPressure;
                     wheel.ManufacturerName = tempWheel.ManufacturerName;
@@ -173,7 +174,7 @@ namespace Ex03.ConsoleUI
             }
             else
             {
-                foreach (VehicleParts.Wheel wheel in m_NewVehicle.Wheels)
+                foreach (Wheel wheel in m_NewVehicle.Wheels)
                 {
                     tempWheel = setSingleWheel(m_NewVehicle.Wheels[0].MaxAirPressure);
                     wheel.CurrentAirPressure = tempWheel.CurrentAirPressure;
@@ -206,7 +207,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public int SetPressureFromInput(string i_LicenseNumber, ref int i_CurrentIndex, VehicleParts.Wheel i_Wheel)
+        public int SetPressureFromInput(string i_LicenseNumber, ref int i_CurrentIndex, Wheel i_Wheel)
         {
             string addedAirPressure;
 
@@ -239,16 +240,15 @@ namespace Ex03.ConsoleUI
             int i = 0;
             Vehicle currentVehicle = m_Garage.GetVehicle(i_LicenseNumber);
 
-            foreach (VehicleParts.Wheel wheel in currentVehicle.Wheels)
+            foreach (Wheel wheel in currentVehicle.Wheels)
             {
                 SetPressureFromInput(i_LicenseNumber, ref i, wheel);
             }
         }
 
-        private VehicleParts.Wheel setSingleWheel(float i_MaxAirPressure)
+        private Wheel setSingleWheel(float i_MaxAirPressure)
         {
-            VehicleParts.Wheel newWheel = new VehicleParts.Wheel();
-            float currentAirPressure = -1;
+            Wheel newWheel = new Wheel();
 
             Console.WriteLine("Please enter the wheel's manufacturer name:");
             newWheel.ManufacturerName = Console.ReadLine();
@@ -257,20 +257,6 @@ namespace Ex03.ConsoleUI
 
             return newWheel;
         }
-
-        //todo
-        //public void CheckValidMenuChoice(string i_Input)
-        //{
-        //    if (!int.TryParse(i_Input, out int parsedInteger))
-        //    {
-        //        throw new FormatException(Garage.k_NotIntError);
-        //    }
-
-        //    if (!Enum.IsDefined(typeof(VehicleFactory.eVehicleType), parsedInteger))
-        //    {
-        //        throw new ValueOutOfRangeException(2, 0);
-        //    }
-        //}
 
         private void initUniqueVehicleProperties() 
         {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using Ex03.GarageLogic;
+using Ex03.GarageLogic.VehicleParts;
+
+
 
 namespace Ex03.ConsoleUI
 {
@@ -119,11 +122,11 @@ namespace Ex03.ConsoleUI
             return isValid;
         }
 
-        public static float GetEnergyPercentage(VehicleParts.Engine.eEngineType i_EngineType)
+        public static float GetEnergyPercentage(Engine.eEngineType i_EngineType)
         {
             float energyPercentage;
 
-            Console.WriteLine(string.Format("Please enter your {0} percentage", i_EngineType == VehicleParts.Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
+            Console.WriteLine(string.Format("Please enter your {0} percentage", i_EngineType == Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
             while (!float.TryParse(Console.ReadLine(), out energyPercentage) || (energyPercentage > 100 || energyPercentage < 0))
             {
                 Console.WriteLine("Invalid input please enter a value between 0 to 100"); 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using static Ex03.GarageLogic.VehicleParts;
 using System.Text;
+using Ex03.GarageLogic.VehicleParts;
 
 namespace Ex03.GarageLogic
 {

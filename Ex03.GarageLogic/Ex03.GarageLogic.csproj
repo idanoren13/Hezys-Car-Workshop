@@ -48,12 +48,15 @@
     <Compile Include="Garage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
+    <Compile Include="VehicleParts\CombustionEngine.cs" />
+    <Compile Include="VehicleParts\ElectricEngine.cs" />
+    <Compile Include="VehicleParts\Engine.cs" />
+    <Compile Include="VehicleParts\Wheel.cs" />
     <Compile Include="Vehicles\Car.cs" />
     <Compile Include="Vehicles\Lorry.cs" />
     <Compile Include="Vehicles\MotorBike.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />
     <Compile Include="VehicleFactory.cs" />
-    <Compile Include="VehicleParts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GarageFlowChart.cd" />
