@@ -34,22 +34,22 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.ToString());
+                    Console.WriteLine(fe.Message);
                     hasExceptionOccured = true;
                 }
                 catch (KeyNotFoundException knfe)
                 {
-                    Console.WriteLine(knfe.ToString());
+                    Console.WriteLine(knfe.Message);
                     hasExceptionOccured = true;
                 }
-                catch (ValueOutOfRangeException e)
+                catch (ValueOutOfRangeException voofe)
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.WriteLine(voofe.ToString());
                     hasExceptionOccured = true;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString()); 
+                    Console.WriteLine(e.Message); 
                     hasExceptionOccured = true;
                 }
 
@@ -78,7 +78,8 @@ namespace Ex03.ConsoleUI
                 case Garage.eGarageOptions.fillGas:
                     fillGas();
                     break;
-                case Garage.eGarageOptions.ChangeVehicleState: // TODO
+                case Garage.eGarageOptions.ChangeVehicleState:
+                    changeVehicleStatus();
                     break;
                 case Garage.eGarageOptions.ChargeElectricVehicle:
                     ChargeElectricVehicle();
@@ -92,6 +93,86 @@ namespace Ex03.ConsoleUI
                 default:
                     throw new FormatException("Invalid choice");
             } 
+        }
+
+        private void changeVehicleStatus()
+        {
+            string licenseNumber;
+
+            Console.WriteLine("Please enter license number:");
+            licenseNumber = Console.ReadLine();
+            
+            if (m_Garage.CheckIfVehicleExists(licenseNumber))
+            {
+                Console.WriteLine("select status:");
+                ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
+                m_Garage.GetVehicle(licenseNumber).Status = 
+                    (Vehicle.eVehicleStatus)ConsoleHandler.readIntFromConsole(
+                        0,
+                        Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length-  1);
+                ConsoleHandler.OperationSuccededMessage();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Vehicle with license number: {licenseNumber} is not in the garage");
+            }
+        }
+
+        public void InsertNewVehicle()
+        {
+            try
+            {
+                VehicleFactory.eVehicleType vehicleType;
+                string model, licenseNumber, ownersName, ownersNumber;
+
+                ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
+                vehicleType = (VehicleFactory.eVehicleType)ConsoleHandler.readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
+                ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
+                if (m_Garage.CheckIfVehicleExists(licenseNumber))
+                {
+                    throw new KeysCollisionException($"Error: {licenseNumber} Already exist! ");
+                }
+                m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
+                if (m_NewVehicle.Engine == null)
+                {
+                    getEngineTypeInput();
+                }
+
+                m_NewVehicle.Engine.SetCurrentEnergyByPercentage(ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType)); // TODO return unused float??
+                setNewVehicleWheels();
+                initUniqueVehicleProperties();
+                m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
+                ConsoleHandler.OperationSuccededMessage();
+            }
+            catch (KeysCollisionException dke)
+            {
+                Console.WriteLine(dke.ToString());
+                m_Garage.GetVehicle(m_NewVehicle.LicenseNumber).Status = Vehicle.eVehicleStatus.InProcess;
+                ConsoleHandler.DisplayReturnMenuMessage();
+            }
+        }
+
+        private void displayListOfLicensedVehicles()
+        {
+            int choosenStatus, userInput;
+            Dictionary<string, Vehicle>.KeyCollection PlatesList;
+
+            Console.WriteLine("select dispaly option:");
+            userInput = ConsoleHandler.Choose1Or0("plates filtered by our service current status option", "show all plates option");
+            if (userInput == 0)
+            {
+                PlatesList = m_Garage.GetPlatesList();
+                Console.WriteLine(m_Garage.PlatesToString(PlatesList));
+            }
+            else
+            {
+                Console.WriteLine("choose status to filter the list with");
+                ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
+                choosenStatus = ConsoleHandler.readIntFromConsole(0, Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length);
+                PlatesList = m_Garage.GetSortedListFilterdByStatus((Vehicle.eVehicleStatus)choosenStatus);
+                Console.WriteLine(m_Garage.PlatesToString(PlatesList));
+            }
+            ConsoleHandler.DisplayReturnMenuMessage();
         }
 
         private void fillGas()
@@ -137,55 +218,6 @@ namespace Ex03.ConsoleUI
                 energyToAdd = Console.ReadLine();
                 m_Garage.Charge(licenseNumber, float.Parse(energyToAdd));
                 ConsoleHandler.OperationSuccededMessage();
-            }
-        }
-
-        private void displayListOfLicensedVehicles()
-        {
-            int displayListByStatus;
-            
-            Console.WriteLine("select dispaly option:");
-            ConsoleHandler.PrintEnum<Vehicle.eVehicleStatus>();
-            Console.WriteLine(string.Format("press{0} to display all vehicles", Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length));
-            displayListByStatus = ConsoleHandler.readIntFromConsole(0, Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length);
-            if (displayListByStatus == Enum.GetValues(typeof(Vehicle.eVehicleStatus)).Length)
-            {
-                Console.WriteLine(m_Garage.GetPlatesList().ToString());
-            }
-            ConsoleHandler.DisplayReturnMenuMessage();
-        }
-
-        public void InsertNewVehicle()
-        {
-            try
-            {
-                VehicleFactory.eVehicleType vehicleType;
-                string model, licenseNumber, ownersName, ownersNumber;
-
-                ConsoleHandler.PrintEnum<VehicleFactory.eVehicleType>();
-                vehicleType = (VehicleFactory.eVehicleType)ConsoleHandler.readEnumFromConsole(typeof(VehicleFactory.eVehicleType));
-                ConsoleHandler.GetBasicInfoFromConsole(vehicleType, out model, out licenseNumber, out ownersName, out ownersNumber);
-                if (m_Garage.CheckIfVehicleExists(licenseNumber))
-                {
-                    throw new DuplicateKeysException($"Error: {licenseNumber} Already exist! ");
-                }
-                m_NewVehicle = m_Garage.Factory.CreatVehicle(vehicleType, model, licenseNumber, ownersName, ownersNumber);
-                if (m_NewVehicle.Engine == null)
-                {
-                    getEngineTypeInput();
-                }
-
-                m_NewVehicle.Engine.SetCurrentEnergyByPercentage(ConsoleHandler.GetEnergyPercentage(m_NewVehicle.Engine.EngineType)); // TODO return unused float??
-                setNewVehicleWheels();
-                initUniqueVehicleProperties();
-                m_Garage.AddVehicle(m_NewVehicle, licenseNumber);
-                ConsoleHandler.OperationSuccededMessage();
-            }
-            catch (DuplicateKeysException dke)
-            {
-                Console.WriteLine(dke.ToString());
-                m_Garage.GetVehicle(m_NewVehicle.LicenseNumber).Status = Vehicle.eVehicleStatus.InProcess;
-                ConsoleHandler.DisplayReturnMenuMessage();
             }
         }
 

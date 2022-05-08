@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
 
             if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle copiedVehicle))
             {
-                throw new KeyNotFoundException(i_LicenseNumber);
+                throw new KeyNotFoundException($"Error:Could Not find {i_LicenseNumber} Vehicle");
             }
             return r_GarageVehicles[i_LicenseNumber];
         }
@@ -58,11 +58,46 @@ namespace Ex03.GarageLogic
             r_GarageVehicles.Add(i_LicenseNumber, i_Vehicle);
         }
 
+        public string PlatesToString(Dictionary<string, Vehicle>.KeyCollection i_Plates)
+        {
+            StringBuilder plates = new StringBuilder();
+
+            foreach (string plate in i_Plates)
+            {
+                plates.Append($"{plate}{Environment.NewLine}");
+            }
+            if (i_Plates.Count == 0)
+            {
+                plates.Clear();
+                plates.Append("~empty list of plates~");
+            }
+
+            return plates.ToString();
+        }
+
         public Dictionary<string, Vehicle>.KeyCollection GetPlatesList()
         {
+            if (r_GarageVehicles.Count() == 0)
+            {
+                throw new KeyNotFoundException($"Error: the garage is empty!");
+            }
             return r_GarageVehicles.Keys;
         }
-        
+
+        public Dictionary<string, Vehicle>.KeyCollection GetSortedListFilterdByStatus(Vehicle.eVehicleStatus i_Status)
+        {
+            var filteredList = new Dictionary<string, Vehicle>();
+            foreach (var vehicle in r_GarageVehicles.Values)
+            {
+                if (i_Status == vehicle.Status)
+                {
+                    filteredList.Add(vehicle.LicenseNumber, vehicle);
+                }
+            }
+
+            return filteredList.Keys;
+        }
+
         public void FillTyresMaxAirPressure(string i_LicenseNumber)
         {
             bool isValueFatched = r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);

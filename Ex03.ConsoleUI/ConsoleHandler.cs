@@ -206,7 +206,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.ToString());
+                    Console.WriteLine(fe.Message);
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
@@ -239,7 +239,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.ToString());
+                    Console.WriteLine(fe.Message);
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
@@ -272,7 +272,7 @@ namespace Ex03.ConsoleUI
                 }
                 catch (FormatException fe)
                 {
-                    Console.WriteLine(fe.ToString());
+                    Console.WriteLine(fe.Message);
                 }
                 catch (ValueOutOfRangeException vofre)
                 {
