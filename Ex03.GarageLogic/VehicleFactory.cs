@@ -27,12 +27,13 @@ namespace Ex03.GarageLogic
                     newVehicle = new Vehicles.MotorBike(i_ModelName, i_LicenseNumber, 2, i_OwnersName, i_OwnersNumber);
                     newVehicle.SetMaxAirPressure(31f);
                     break;
-                //case eVehicleType.Truck:
-                //    newVehicle = new Ex03.GarageLogic.Vehicles.Truck(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
-                //    break;
+                case eVehicleType.Truck:
+                    newVehicle = new Ex03.GarageLogic.Vehicles.Lorry(i_ModelName, i_LicenseNumber, 16, i_OwnersName, i_OwnersNumber);
+                    newVehicle.SetMaxAirPressure(24f);
+                    newVehicle.Engine = CreateEngine(VehicleParts.Engine.eEngineType.Fuel, eVehicleType.Truck);
+                    break;
                 default:
                     throw new ArgumentException("Bad Vehicle Type, This type of vehicle is not recognizeble");
-                    break;
             }
             
             newVehicle.UniqueMethods = InitUniqueMethods(newVehicle);
@@ -57,7 +58,6 @@ namespace Ex03.GarageLogic
                     break;
                 default:
                     throw new ArgumentException("Bad Engine Type, This type engine of is not recognizeble");
-                    break;
             }
 
             return engine;
@@ -80,7 +80,6 @@ namespace Ex03.GarageLogic
                     break;
                 default:
                     throw new FormatException();
-                    break;
             }
 
             return fuelType;
@@ -90,7 +89,7 @@ namespace Ex03.GarageLogic
         {
             float capacity ;
 
-            if (i_EngineType == VehicleParts.Engine.eEngineType.Electricty)
+            if (i_EngineType != VehicleParts.Engine.eEngineType.Electricty)
             {
                 switch (i_VehicleType)
                 {
@@ -105,7 +104,6 @@ namespace Ex03.GarageLogic
                         break;
                     default:
                         throw new FormatException();
-                        break;
                 }
             }
             else
@@ -120,7 +118,6 @@ namespace Ex03.GarageLogic
                         break;
                     default:
                         throw new FormatException();
-                        break;
                 }
             }
 

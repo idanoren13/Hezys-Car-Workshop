@@ -32,7 +32,7 @@ namespace Ex03.GarageLogic.Vehicles
         {
             StringBuilder LorryToString = new StringBuilder();
 
-            LorryToString.Append(generalInfoToString());
+            LorryToString.Append(GeneralInfoToString());
             LorryToString.Append($"{Environment.NewLine}Cooling cargo type: {this.m_IsActiveTemprtureControl} ");
             LorryToString.Append($"{Environment.NewLine}The Engine Volume: {this.m_CargoVolume} ");
 

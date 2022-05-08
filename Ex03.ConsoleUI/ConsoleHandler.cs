@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ex03.GarageLogic;
 using System.Reflection;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
@@ -65,29 +65,68 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(messageToScreen);
         }
 
-        //TODO: bad method you ignored checkers, now checkers here this method checks logics right after input move to mngre
-        public static void GetBasicInfoFromConsole(VehicleFactory.eVehicleType i_VehicleType, out string o_Model, out string o_LicenseNumber, out string o_OwnersName, out string o_OwnersNumber)
+        public static void GetBasicInfoFromConsole(
+            VehicleFactory.eVehicleType i_VehicleType, 
+            out string o_Model,
+            out string o_LicenseNumber, 
+            out string o_OwnersName, 
+            out string o_OwnersNumber)
         {
+            o_LicenseNumber = null;
+            o_OwnersNumber = null;
             Console.WriteLine(string.Format("Please enter your name: "));
             o_OwnersName = Console.ReadLine();
-            Console.WriteLine(string.Format("Please enter your phone number: "));
-            o_OwnersNumber = Console.ReadLine();
-            UIManager.CheckPhoneNumberInput(o_OwnersNumber);
+            getAndCheckPhoneNumberInput(ref o_OwnersNumber);
             Console.WriteLine(string.Format("Please enter your {0} model: ", i_VehicleType.ToString()));
             o_Model = Console.ReadLine();
+            getAndCheckLicenseNumberInput(ref o_LicenseNumber);    
+        }
+
+        private static void getAndCheckPhoneNumberInput(ref string io_Input)
+        {
+            Console.WriteLine(string.Format("Please enter your phone number: "));
+            io_Input = Console.ReadLine();
+            while (!checkValidNumberInString(io_Input, "Error: negative phone number!"))
+            {
+                io_Input = Console.ReadLine();
+            }
+        }
+
+        public static void getAndCheckLicenseNumberInput(ref string io_Input)
+        {
             Console.WriteLine(string.Format("Please enter your license number: "));
-            o_LicenseNumber = Console.ReadLine();
-            UIManager.CheckLicenseNumberInput(o_LicenseNumber);
+            io_Input = Console.ReadLine();
+            while (!checkValidNumberInString(io_Input, "Error: negative license number!"))
+            {
+                io_Input = Console.ReadLine();
+            }
+        }
+
+        private static bool checkValidNumberInString(string i_Input, string i_NegativeMessege)
+        {
+            bool isValid = true;
+            if (!long.TryParse(i_Input, out long parsedInteger))
+            {
+                isValid = false;
+                Console.WriteLine($"{i_Input} is not an interger");
+            }
+            else if (parsedInteger <= 0)
+            {
+                isValid = false;
+                Console.WriteLine(i_NegativeMessege);
+            }
+
+            return isValid;
         }
 
         public static float GetEnergyPercentage(VehicleParts.Engine.eEngineType i_EngineType)
         {
             float energyPercentage;
-            //todo 0 or 1 is not precentege idk what u mean
+
             Console.WriteLine(string.Format("Please enter your {0} percentage", i_EngineType == VehicleParts.Engine.eEngineType.Fuel ? "fuel tank" : "battery"));
-            while (!float.TryParse(Console.ReadLine(), out energyPercentage) || (energyPercentage > 1 || energyPercentage < 0))
+            while (!float.TryParse(Console.ReadLine(), out energyPercentage) || (energyPercentage > 100 || energyPercentage < 0))
             {
-                Console.WriteLine("Invalid input please enter a value between 0 to 1"); // todo use InvalidInputMessage() or use 0 or 1 generic func for all cases
+                Console.WriteLine("Invalid input please enter a value between 0 to 100"); 
             }
 
             return energyPercentage;
@@ -107,17 +146,135 @@ namespace Ex03.ConsoleUI
 
             messageToScreen.Append(string.Format("Welcome to I&D garage!{0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Menu options : {0}", Environment.NewLine));
-            messageToScreen.Append(string.Format("Press 1 to insert a new vehicle", Environment.NewLine));
+            messageToScreen.Append(string.Format("Press 1 to insert a new vehicle{0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 2 to display a list of the licensed vehicles within our garage.{0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 3 to fill a selected vehicle tyres.{0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 4 to fill gas to a vehicle with combustion based Engine. {0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 5 to change the state of your vehicle .{0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 6 to super charge a vehicle with electric based engine.  {0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Press 7 to get an extended information on a vehicle. {0}", Environment.NewLine));
-            messageToScreen.Append(string.Format("Press 8 to exit from the garage. {0}", Environment.NewLine));
+            messageToScreen.Append(string.Format("Press 0 to exit from the garage. {0}", Environment.NewLine));
             messageToScreen.Append(string.Format("Please enter your choice:", Environment.NewLine));
 
             Console.WriteLine(messageToScreen);
+        }
+
+        public static int Choose1Or0(string i_Messege1, string i_Messege0)
+        {
+            int userChoice;
+            Console.WriteLine("Press 1 to set {0}{1}Press 0 to set {2}", i_Messege1, Environment.NewLine, i_Messege0);
+            while (!int.TryParse(Console.ReadLine(), out userChoice) || (userChoice != 1 && userChoice != 0))
+            {
+                Console.WriteLine("Invalid input press 1/0");
+            }
+
+            return userChoice;
+        }
+
+        public static int readEnumFromConsole(Type i_EnumType)
+        {
+            int parseEnum = int.MaxValue;
+            int maxEnumValue = Enum.GetValues(i_EnumType).Length - 1;
+            bool exceptionFlag = false;
+
+            while (!exceptionFlag)
+            {
+                try
+                {
+                    if (!int.TryParse(Console.ReadLine(), out parseEnum))
+                    {
+                        throw new FormatException(Garage.k_NotIntError);
+                    }
+                    else if (parseEnum < 0 || parseEnum > maxEnumValue)
+                    {
+                        throw new ValueOutOfRangeException(maxEnumValue, 0);
+                    }
+
+                    exceptionFlag = true;
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                catch (ValueOutOfRangeException vofre)
+                {
+                    Console.WriteLine(vofre.ToString());
+                }
+            }
+
+            return parseEnum;
+        }
+
+        public static int readIntFromConsole(int i_MinValue, int i_MaxValue)
+        {
+            int parseInt = default;
+            bool exceptionFlag = false;
+
+            while (!exceptionFlag)
+            {
+                try
+                {
+                    if (!int.TryParse(Console.ReadLine(), out parseInt))
+                    {
+                        throw new FormatException(Garage.k_NotIntError);
+                    }
+                    else if (parseInt < i_MinValue || parseInt > i_MaxValue)
+                    {
+                        throw new ValueOutOfRangeException(i_MaxValue, i_MinValue);
+                    }
+
+                    exceptionFlag = true;
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                catch (ValueOutOfRangeException vofre)
+                {
+                    Console.WriteLine(vofre.ToString());
+                }
+            }
+
+            return parseInt;
+        }
+
+        public static float readFloatFromConsole(float i_MinValue, float i_MaxValue)
+        {
+            float parseFloat = default;
+            bool exceptionFlag = false;
+
+            while (!exceptionFlag)
+            {
+                try
+                {
+                    if (!float.TryParse(Console.ReadLine(), out parseFloat))
+                    {
+                        throw new FormatException("Error: No Float was entered");
+                    }
+                    else if (parseFloat < i_MinValue || parseFloat > i_MaxValue)
+                    {
+                        throw new ValueOutOfRangeException(i_MaxValue, i_MinValue);
+                    }
+
+                    exceptionFlag = true;
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                catch (ValueOutOfRangeException vofre)
+                {
+                    Console.WriteLine(vofre.ToString());
+                }
+            }
+
+            return parseFloat;
+        }
+
+        public static void HaltScreenUntilUserInput()
+        {
+            Console.WriteLine("Press any key to return the main menu");
+            Console.ReadKey();
         }
     }
 }

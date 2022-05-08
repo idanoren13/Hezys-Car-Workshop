@@ -41,7 +41,7 @@ namespace Ex03.GarageLogic.Vehicles
         {
             StringBuilder motorbikeToString = new StringBuilder();
 
-            motorbikeToString.Append(generalInfoToString());
+            motorbikeToString.Append(GeneralInfoToString());
             motorbikeToString.Append($"{Environment.NewLine}The License Type is: {this.m_LicenseType} ");
             motorbikeToString.Append($"{Environment.NewLine}The Engine Volume: {this.m_EngineVolume} ");
 

@@ -10,17 +10,20 @@ namespace Ex03.GarageLogic
     {
         public enum eGarageOptions
         {
-            InsertVehicle = 1,
-            ChangeVehicleState,
+            CloseTheBasta,
+            InsertVehicle,
+            DisplayListOfLicensedVehicle,
             FillTirePressure,
             FillGasMotor,
+            ChangeVehicleState,
             FillElectricMotor,
+            ExtendedInformationOfSelectedVehicle,
         }
 
         //todo
         private readonly Dictionary<string, Vehicle> r_GarageVehicles;
         private readonly VehicleFactory r_Factory;
-        private readonly eGarageOptions m_Options;
+        //private readonly eGarageOptions m_Options;
         const int k_NumberOfAvailableMethodsInGarage = 0;
         const string k_ParsingToIntErrorFlag = "0";
         const float k_MaxPercentage = 100;
@@ -34,8 +37,6 @@ namespace Ex03.GarageLogic
             r_Factory = new VehicleFactory();
         }
 
-
-
         public Dictionary<string, Vehicle>.KeyCollection PlatesList
         {
             get => r_GarageVehicles.Keys;
@@ -46,17 +47,17 @@ namespace Ex03.GarageLogic
             get => r_Factory;
         }
 
-        public eGarageOptions Options 
-        {
-            get => m_Options;
-        }
+        ////public eGarageOptions Options 
+        //{
+        //    get => m_Options;
+        //}
 
         public Vehicle GetVehicle(string i_LicenseNumber)
         {
 
             if (!r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle copiedVehicle))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(i_LicenseNumber);
             }
             return r_GarageVehicles[i_LicenseNumber];
         }
@@ -74,6 +75,7 @@ namespace Ex03.GarageLogic
         public void FillTyresMaxAirPressure(string i_LicenseNumber)
         {
             bool isValueFatched = r_GarageVehicles.TryGetValue(i_LicenseNumber, out Vehicle currentVehicle);
+
             if (isValueFatched)
             {
                 foreach (VehicleParts.Wheel wheel in r_GarageVehicles[i_LicenseNumber].Wheels)
@@ -83,7 +85,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new FormatException("Error:Could Not fined Vehicle");
+                throw new KeyNotFoundException($"Error:Could Not find {i_LicenseNumber} Vehicle");
             }
         }
 
@@ -116,19 +118,16 @@ namespace Ex03.GarageLogic
 
         public const string k_NotIntError = "Error: non Integer number entered!";
 
-        public void CheckIfVehicleExists(string i_Input)
+        public bool CheckIfVehicleExists(string i_Input)
         {
             int parsedInt;
-
+  
             if (!int.TryParse(i_Input, out parsedInt))
             {
                 throw new FormatException(k_NotIntError);
             }
 
-            if (r_GarageVehicles.ContainsKey(i_Input) == true)
-            {
-                throw new ArgumentException($"Error: {i_Input} Already exist! ");
-            }
+            return r_GarageVehicles.ContainsKey(i_Input);
         }
 
     }

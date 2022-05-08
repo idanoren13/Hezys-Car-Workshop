@@ -22,14 +22,10 @@ namespace Ex03.GarageLogic
         private readonly string r_ModelName;
         private readonly string r_LicenseNumber;
         private readonly string r_OwnersName;
-        private readonly string r_OwnersNumber;
+        private readonly string r_OwnersPhoneNumber;
         private readonly VehicleFactory.eVehicleType r_VehicleType;
         private List<MethodInfo> m_UniqueMethods;
 
-        /// <summary>
-        /// Vehicle c'tor
-        /// internal for future dll's and extensibility option 
-        /// </summary>
         internal Vehicle(string i_ModelName, string i_LicenseNumber, int i_NumberOfWheels, string i_OwnersName, string i_OwnersNumber, VehicleFactory.eVehicleType i_VehicleType)
         {
             r_ModelName = i_ModelName;
@@ -43,7 +39,7 @@ namespace Ex03.GarageLogic
 
             m_Status = eVehicleStatus.InProcess;
             r_OwnersName = i_OwnersName;
-            r_OwnersNumber = i_OwnersNumber;
+            r_OwnersPhoneNumber = i_OwnersNumber;
             r_VehicleType = i_VehicleType;
             //m_UniqueProperties = new List<PropertyInfo>();
         }
@@ -86,9 +82,9 @@ namespace Ex03.GarageLogic
             get => r_OwnersName; 
         }
 
-        public string OwnersNumber 
+        public string OwnersPhoneNumber 
         { 
-            get => r_OwnersNumber; 
+            get => r_OwnersPhoneNumber; 
         }
 
         public VehicleFactory.eVehicleType VehicleType
@@ -110,7 +106,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        protected string generalInfoToString()
+        protected string GeneralInfoToString()
         {
             StringBuilder VehicleToString = new StringBuilder();
 

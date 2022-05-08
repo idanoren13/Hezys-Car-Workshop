@@ -67,7 +67,7 @@ namespace Ex03.GarageLogic.Vehicles
         {
             StringBuilder carToString = new StringBuilder();
 
-            carToString.Append(generalInfoToString());
+            carToString.Append(GeneralInfoToString());
             carToString.Append($"{Environment.NewLine}The amount of doors: {this.m_AmountOfDoors} ");
             carToString.Append($"{Environment.NewLine}The Color is: {this.eCarColor} ");
 

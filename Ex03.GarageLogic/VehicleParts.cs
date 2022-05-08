@@ -93,7 +93,12 @@ namespace Ex03.GarageLogic
                 return m_CurrentEnergyCapacity / m_MaxEnergyCapacity * 100 ;
             }
 
-            protected void addEnergy(float i_AddedVolume)
+            public void SetCurrentEnergyByPercentage(float i_Percentage)
+            {
+                m_CurrentEnergyCapacity = (i_Percentage / 100) * m_MaxEnergyCapacity;
+            }
+
+            protected void AddEnergy(float i_AddedVolume)
             {
                 if (m_CurrentEnergyCapacity + i_AddedVolume > m_MaxEnergyCapacity ||
                     m_CurrentEnergyCapacity + i_AddedVolume < 0)
@@ -126,7 +131,12 @@ namespace Ex03.GarageLogic
 
             void SuperCharge(float i_AddEnergy)
             {
-                addEnergy(i_AddEnergy);   
+                AddEnergy(i_AddEnergy);   
+            }
+
+            public void SetCurrentBatteryByPercentage(float i_Percentage)
+            {
+                SetCurrentEnergyByPercentage(i_Percentage);
             }
 
             public override string ToString()
@@ -172,9 +182,14 @@ namespace Ex03.GarageLogic
                 set => m_FuelType = value;
             }
 
-            public void addFuel(float i_AddVolume)
+            public void SetCurrentFuelAmountByPercentage(float i_Percentage)
             {
-                addEnergy(i_AddVolume);
+                SetCurrentEnergyByPercentage(i_Percentage);
+            }
+
+            public void AddFuel(float i_AddVolume)
+            {
+                AddEnergy(i_AddVolume);
             }
 
             public override string ToString()
@@ -182,7 +197,7 @@ namespace Ex03.GarageLogic
                 StringBuilder ElectricEngineToString = new StringBuilder();
                 float fuelPercentage = GetEnergyPercentage();
 
-                ElectricEngineToString.Append($"Feul left: {fuelPercentage}% Tank.");
+                ElectricEngineToString.Append($"Fuel left: {fuelPercentage}% Tank.");
                 ElectricEngineToString.Append($"{Environment.NewLine}Full tank is: {this.m_MaxEnergyCapacity} litres."); // todo ?
 
                 return ElectricEngineToString.ToString();
